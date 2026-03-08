@@ -1,0 +1,730 @@
+{
+  "name": "highrise-corner-office",
+  "gridCols": 20,
+  "gridRows": 16,
+  "textures": [
+    {
+      "id": "white_marble_floor",
+      "prompt": "polished white marble floor with subtle grey veining, straight top-down bird's eye view, 32x32 pixel tile Seamless.",
+      "role": "floor"
+    },
+    {
+      "id": "polished_concrete_wall",
+      "prompt": "smooth light grey polished concrete wall, straight top-down bird's eye view, 32x32 pixel tile.",
+      "role": "wall"
+    },
+    {
+      "id": "dark_wood_floor_accent",
+      "prompt": "dark walnut wood herringbone pattern flooring, straight top-down bird's eye view, 32x32 pixel tile.",
+      "role": "floor"
+    }
+  ],
+  "furniture": [
+    {
+      "id": "standing_desk",
+      "prompt": "sleek glass-and-chrome standing desk, with clean lines, straight top-down bird's eye view.",
+      "count": 4,
+      "w": 3,
+      "h": 1.5,
+      "layer": "below",
+      "anchorType": "work"
+    },
+    {
+      "id": "herman_miller_chair",
+      "prompt": "ergonomic Herman Miller Embody chair in charcoal grey, straight top-down bird's eye view.",
+      "count": 4,
+      "w": 1,
+      "h": 1,
+      "layer": "above",
+      "anchorType": "rest"
+    },
+    {
+      "id": "l_sectional_sofa",
+      "prompt": "plush grey velvet L-shaped sectional sofa, modern design, straight top-down bird's eye view.",
+      "count": 1,
+      "w": 4.5,
+      "h": 3,
+      "layer": "below",
+      "anchorType": "social"
+    },
+    {
+      "id": "glass_coffee_table",
+      "prompt": "minimalist clear glass coffee table with chrome base, integrated USB charging, straight top-down bird's eye view.",
+      "count": 1,
+      "w": 2,
+      "h": 1.5,
+      "layer": "below",
+      "anchorType": "social"
+    },
+    {
+      "id": "fiddle_leaf_fig",
+      "prompt": "tall fiddle-leaf fig tree in a white minimalist cylindrical planter, straight top-down bird's eye view.",
+      "count": 3,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "espresso_machine",
+      "prompt": "La Marzocca Linea Mini espresso machine on a stainless steel counter with cups, straight top-down bird's eye view.",
+      "count": 1,
+      "w": 1.5,
+      "h": 1,
+      "layer": "below",
+      "anchorType": "utility"
+    },
+    {
+      "id": "wine_fridge",
+      "prompt": "sleek black built-in wine fridge, tall and narrow, straight top-down bird's eye view.",
+      "count": 1,
+      "w": 0.75,
+      "h": 1.75,
+      "layer": "below",
+      "anchorType": "utility"
+    },
+    {
+      "id": "pendant_light",
+      "prompt": "modern designer pendant light with a wide, flat, circular shade in brushed brass, hanging from ceiling, straight top-down bird's eye view.",
+      "count": 3,
+      "w": 1,
+      "h": 1,
+      "layer": "above"
+    },
+    {
+      "id": "abstract_art",
+      "prompt": "large abstract canvas art piece, vibrant colors, framed in thin black, straight top-down bird's eye view.",
+      "count": 2,
+      "w": 2,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "glass_whiteboard",
+      "prompt": "floor-to-ceiling clear glass whiteboard with neon dry-erase markers in a tray at the bottom, straight top-down bird's eye view.",
+      "count": 1,
+      "w": 3,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "dyson_air_purifier",
+      "prompt": "sleek white Dyson air purifier, tall cylindrical design, straight top-down bird's eye view.",
+      "count": 1,
+      "w": 0.5,
+      "h": 0.5,
+      "layer": "below"
+    },
+    {
+      "id": "zen_fountain_credenza",
+      "prompt": "small zen water fountain on a dark walnut credenza with floating shelves above, design books and awards visible on shelves, straight top-down bird's eye view.",
+      "count": 1,
+      "w": 2.5,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "panoramic_window",
+      "prompt": "floor-to-ceiling panoramic window showing a Manhattan city skyline, straight top-down bird's eye view.",
+      "count": 12,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "orchid_vase",
+      "prompt": "small modern vase with fresh white orchids, straight top-down bird's eye view.",
+      "count": 1,
+      "w": 0.5,
+      "h": 0.5,
+      "layer": "below"
+    },
+    {
+      "id": "recessed_speaker",
+      "prompt": "subtle circular recessed ceiling speaker, straight top-down bird's eye view.",
+      "count": 4,
+      "w": 0.5,
+      "h": 0.5,
+      "layer": "above"
+    }
+  ],
+  "layout": {
+    "floor": [
+      [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    ],
+    "placements": [
+      {
+        "furnitureIndex": 0,
+        "x": 2,
+        "y": 2
+      },
+      {
+        "furnitureIndex": 1,
+        "x": 3,
+        "y": 3.5
+      },
+      {
+        "furnitureIndex": 0,
+        "x": 6,
+        "y": 2
+      },
+      {
+        "furnitureIndex": 1,
+        "x": 7,
+        "y": 3.5
+      },
+      {
+        "furnitureIndex": 0,
+        "x": 2,
+        "y": 5
+      },
+      {
+        "furnitureIndex": 1,
+        "x": 3,
+        "y": 6.5
+      },
+      {
+        "furnitureIndex": 0,
+        "x": 6,
+        "y": 5
+      },
+      {
+        "furnitureIndex": 1,
+        "x": 7,
+        "y": 6.5
+      },
+      {
+        "furnitureIndex": 2,
+        "x": 14.5,
+        "y": 12
+      },
+      {
+        "furnitureIndex": 3,
+        "x": 16,
+        "y": 10.5
+      },
+      {
+        "furnitureIndex": 13,
+        "x": 16.75,
+        "y": 11.25
+      },
+      {
+        "furnitureIndex": 5,
+        "x": 10,
+        "y": 1.5
+      },
+      {
+        "furnitureIndex": 6,
+        "x": 11.75,
+        "y": 1.5
+      },
+      {
+        "furnitureIndex": 4,
+        "x": 4,
+        "y": 8
+      },
+      {
+        "furnitureIndex": 4,
+        "x": 13,
+        "y": 8
+      },
+      {
+        "furnitureIndex": 4,
+        "x": 10,
+        "y": 5
+      },
+      {
+        "furnitureIndex": 7,
+        "x": 3.5,
+        "y": 1.5
+      },
+      {
+        "furnitureIndex": 7,
+        "x": 7.5,
+        "y": 1.5
+      },
+      {
+        "furnitureIndex": 7,
+        "x": 15.5,
+        "y": 9.5
+      },
+      {
+        "furnitureIndex": 8,
+        "x": 10.5,
+        "y": 8.5
+      },
+      {
+        "furnitureIndex": 8,
+        "x": 10.5,
+        "y": 11.5
+      },
+      {
+        "furnitureIndex": 9,
+        "x": 2,
+        "y": 9
+      },
+      {
+        "furnitureIndex": 10,
+        "x": 1,
+        "y": 14
+      },
+      {
+        "furnitureIndex": 11,
+        "x": 16.5,
+        "y": 1
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 0,
+        "y": 1
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 0,
+        "y": 2
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 0,
+        "y": 3
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 0,
+        "y": 4
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 0,
+        "y": 5
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 0,
+        "y": 6
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 0,
+        "y": 7
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 1,
+        "y": 0
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 2,
+        "y": 0
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 3,
+        "y": 0
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 4,
+        "y": 0
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 5,
+        "y": 0
+      },
+      {
+        "furnitureIndex": 14,
+        "x": 3,
+        "y": 3
+      },
+      {
+        "furnitureIndex": 14,
+        "x": 7,
+        "y": 3
+      },
+      {
+        "furnitureIndex": 14,
+        "x": 14,
+        "y": 3
+      },
+      {
+        "furnitureIndex": 14,
+        "x": 14,
+        "y": 7
+      }
+    ],
+    "wanderPoints": [
+      {
+        "name": "wander_main_aisle_1",
+        "x": 4,
+        "y": 11
+      },
+      {
+        "name": "wander_main_aisle_2",
+        "x": 9,
+        "y": 7
+      },
+      {
+        "name": "wander_lounge_center",
+        "x": 17,
+        "y": 10
+      },
+      {
+        "name": "wander_cafe_area",
+        "x": 13,
+        "y": 3
+      }
+    ]
+  }
+}

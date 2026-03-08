@@ -17,8 +17,25 @@ function sceneSavePlugin() {
         req.on('end', () => {
           try {
             const data = JSON.parse(body);
-            const filePath = path.resolve(__dirname, 'public/scene.json');
-            fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + '\n');
+            const worldId = data.worldId ?? 'cozy-startup';
+            delete data.worldId;
+
+            // Sanitize worldId to prevent path traversal
+            const safeId = worldId.replace(/[^a-zA-Z0-9_-]/g, '');
+            const worldDir = path.resolve(__dirname, 'public/worlds', safeId);
+            if (!fs.existsSync(worldDir)) {
+              fs.mkdirSync(worldDir, { recursive: true });
+            }
+
+            // Merge with existing scene.json to preserve spriteMap, tileNames, etc.
+            const filePath = path.join(worldDir, 'scene.json');
+            let existing: Record<string, unknown> = {};
+            if (fs.existsSync(filePath)) {
+              try { existing = JSON.parse(fs.readFileSync(filePath, 'utf-8')); } catch {}
+            }
+            const merged = { ...existing, ...data };
+
+            fs.writeFileSync(filePath, JSON.stringify(merged, null, 2) + '\n');
             res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify({ ok: true }));
             console.log('[scene-save] Written to', filePath);

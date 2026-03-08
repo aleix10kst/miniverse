@@ -271,9 +271,8 @@ export class Editor {
       }
     }
 
-    // Selected piece highlight
-    const s = this.furniture.selected;
-    if (s) {
+    // Selected piece highlights
+    for (const s of this.furniture.selected) {
       ctx.strokeStyle = '#00ff88';
       ctx.lineWidth = 1.5;
       ctx.setLineDash([4, 4]);
@@ -468,7 +467,7 @@ export class Editor {
   private switchTab(tab: EditorTab) {
     if (tab === this.tab) return;
     this.tab = tab;
-    this.furniture.selected = null;
+    this.furniture.selected.clear();
     this.selAnchorPiece = null;
     this.selAnchorIdx = -1;
     this.selectedResidentId = null;
@@ -507,6 +506,8 @@ export class Editor {
     const controls = this.el('div', 'padding:6px 10px; border-bottom:1px solid #333; line-height:1.6;');
     controls.innerHTML = [
       '<span style="color:#00ff88">Drag</span> move',
+      '<span style="color:#00ff88">Shift+Click</span> multi-select',
+      '<span style="color:#00ff88">⌘C / ⌘V</span> copy/paste',
       '<span style="color:#00ff88">Arrows</span> nudge',
       '<span style="color:#00ff88">+ / -</span> resize',
       '<span style="color:#00ff88">L</span> layer',
@@ -542,7 +543,10 @@ export class Editor {
       item.addEventListener('click', () => {
         this.beginAction();
         const p = this.furniture.addPiece(id);
-        if (p) this.furniture.selected = p;
+        if (p) {
+          this.furniture.selected.clear();
+          this.furniture.selected.add(p);
+        }
         this.commitAction();
       });
       grid.appendChild(item);
@@ -552,11 +556,16 @@ export class Editor {
 
   private refreshFurnitureTab() {
     if (!this.furnitureInfo) return;
-    const s = this.furniture.selected;
-    if (!s) {
+    const sel = this.furniture.selected;
+    if (sel.size === 0) {
       this.furnitureInfo.innerHTML = '<span style="color:#555">Click a piece</span>';
       return;
     }
+    if (sel.size > 1) {
+      this.furnitureInfo.innerHTML = `<span style="color:#00ff88">${sel.size} pieces selected</span>`;
+      return;
+    }
+    const s = [...sel][0];
     const anchors = s.anchors.length > 0
       ? s.anchors.map(a => `<span style="color:${ANCHOR_COLORS[a.type]}">\u25CF</span> ${a.name}`).join('<br>')
       : '<span style="color:#555">no anchors</span>';
@@ -780,7 +789,7 @@ export class Editor {
       this.painting = true;
       e.preventDefault();
     } else if (this.tab === 'furniture') {
-      if (this.furniture.handleMouseDown(x, y)) e.preventDefault();
+      if (this.furniture.handleMouseDown(x, y, e.shiftKey)) e.preventDefault();
     } else if (this.tab === 'characters') {
       this.pickResident(x, y);
     } else if (this.tab === 'behavior') {
@@ -874,7 +883,7 @@ export class Editor {
         this.canvas.removeEventListener('mousedown', this.onMouseDown);
         this.canvas.removeEventListener('mousemove', this.onMouseMove);
         this.canvas.removeEventListener('mouseup', this.onMouseUp);
-        this.furniture.selected = null;
+        this.furniture.selected.clear();
         this.selAnchorPiece = null;
         this.selectedResidentId = null;
       }
@@ -895,8 +904,8 @@ export class Editor {
       return;
     }
 
-    // Global save — works on any tab
-    if (e.key === 's' || e.key === 'S') {
+    // Global save — works on any tab (but not Ctrl/Cmd+S which is copy/paste territory)
+    if ((e.key === 's' || e.key === 'S') && !e.ctrlKey && !e.metaKey) {
       this.furniture.save();
       this.saveScene();
       return;
@@ -991,7 +1000,7 @@ export class Editor {
     }
 
     // Clear selection state
-    this.furniture.selected = null;
+    this.furniture.selected.clear();
     this.selAnchorPiece = null;
     this.selAnchorIdx = -1;
     this.charsBuiltFor = null;
@@ -1049,7 +1058,9 @@ export class Editor {
       characters[r.agentId] = r.getHomePosition();
     }
     const { cols, rows } = this.mv.getGridSize();
+    const worldId = new URLSearchParams(window.location.search).get('world') ?? 'cozy-startup';
     const scene = {
+      worldId,
       gridCols: cols,
       gridRows: rows,
       floor: this.mv.getFloorLayer(),

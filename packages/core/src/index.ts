@@ -259,13 +259,13 @@ export class Miniverse {
       }
       layer.length = newRows;
 
-      // Set border tiles to wall (tile index 1)
+      // Set border tiles: top 2 rows = wall (1), everything else floor (0)
       for (let r = 0; r < newRows; r++) {
         for (let c = 0; c < newCols; c++) {
-          if (r === 0 || r === newRows - 1 || c === 0 || c === newCols - 1) {
+          if (r <= 1) {
             layer[r][c] = 1;
           } else if (r >= oldRows - 1 || c >= oldCols - 1) {
-            // Old border that's now interior becomes floor
+            // Old border or new expansion becomes floor
             layer[r][c] = 0;
           }
         }

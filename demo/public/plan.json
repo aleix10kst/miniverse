@@ -4,110 +4,118 @@
   "gridRows": 14,
   "textures": [
     {
-      "id": "reclaimed_wood_floor",
-      "prompt": "worn, rustic reclaimed wood planks, top-down pixel art, warm browns and grays",
+      "id": "hardwood_floor",
+      "prompt": "Distressed light brown hardwood floor, straight top-down bird's eye view",
       "role": "floor"
     },
     {
       "id": "exposed_brick_wall",
-      "prompt": "exposed red brick wall, slightly weathered mortar, top-down pixel art, dark reds and oranges",
+      "prompt": "Reddish-brown exposed brick wall, straight top-down bird's eye view",
       "role": "wall"
     },
     {
-      "id": "concrete_accent_floor",
-      "prompt": "smooth, light grey polished concrete floor, subtle reflections, top-down pixel art",
-      "role": "accent_floor"
+      "id": "concrete_floor",
+      "prompt": "Smooth light grey concrete floor, straight top-down bird's eye view",
+      "role": "accent"
     },
     {
-      "id": "dark_tile_accent_floor",
-      "prompt": "dark, geometric pattern floor tiles, small squares in black and deep blue, pixel art",
-      "role": "accent_floor"
+      "id": "rug_boho",
+      "prompt": "Worn bohemian patterned rug, rectangular, straight top-down bird's eye view",
+      "role": "accent"
     }
   ],
   "furniture": [
     {
       "id": "desk_wood_modern",
-      "prompt": "modern wooden desk, light wood finish, minimalist design, pixel art",
+      "prompt": "Modern light wood large desk with minimalist metal legs, straight top-down bird's eye view",
       "count": 4,
-      "w": 3,
+      "w": 3.5,
       "h": 2,
       "layer": "below",
       "anchorType": "work"
     },
     {
-      "id": "office_chair_swivel",
-      "prompt": "comfortable ergonomic office chair, black fabric, swivel base, pixel art",
+      "id": "chair_office_black",
+      "prompt": "Black ergonomic office chair with wheels, straight top-down bird's eye view",
       "count": 4,
-      "w": 1.5,
-      "h": 1.5,
+      "w": 1.1,
+      "h": 1.1,
       "layer": "above"
     },
     {
       "id": "potted_plant_tall",
-      "prompt": "tall potted plant, dark green leaves, terracotta pot, pixel art",
-      "count": 3,
+      "prompt": "Tall leafy tropical potted plant in a terracotta pot, straight top-down bird's eye view",
+      "count": 4,
       "w": 1,
       "h": 1,
       "layer": "below"
     },
     {
       "id": "potted_plant_small",
-      "prompt": "small potted plant, green succulent, ceramic pot, pixel art",
-      "count": 2,
-      "w": 0.8,
-      "h": 0.8,
-      "layer": "below"
+      "prompt": "Small succulent potted plant on a desk, straight top-down bird's eye view",
+      "count": 4,
+      "w": 0.5,
+      "h": 0.5,
+      "layer": "above"
     },
     {
-      "id": "coffee_machine",
-      "prompt": "sleek modern coffee machine, chrome and black, small drip tray, pixel art",
+      "id": "coffee_bar_counter",
+      "prompt": "Light wood coffee bar counter with a single sink and two cupboard doors, straight top-down bird's eye view",
       "count": 1,
-      "w": 1,
-      "h": 1,
+      "w": 4,
+      "h": 1.5,
       "layer": "below",
       "anchorType": "utility"
     },
     {
-      "id": "coffee_counter",
-      "prompt": "wooden counter, dark stained wood, simple design, pixel art",
-      "count": 2,
-      "w": 2,
-      "h": 1,
-      "layer": "below"
+      "id": "coffee_machine",
+      "prompt": "Sleek black espresso machine with a frother, straight top-down bird's eye view",
+      "count": 1,
+      "w": 1,
+      "h": 0.8,
+      "layer": "above"
     },
     {
-      "id": "beanbag_orange",
-      "prompt": "bright orange bean bag chair, slightly deflated, comfortable looking, pixel art",
-      "count": 2,
+      "id": "bean_bag_chair_grey",
+      "prompt": "Large grey fabric bean bag chair, straight top-down bird's eye view",
+      "count": 3,
       "w": 2,
       "h": 2,
       "layer": "below",
       "anchorType": "rest"
     },
     {
-      "id": "low_table_wood",
-      "prompt": "small, wooden coffee table, dark wood, rectangular, pixel art",
+      "id": "low_coffee_table_round",
+      "prompt": "Small round wooden low coffee table, straight top-down bird's eye view",
+      "count": 1,
+      "w": 1.5,
+      "h": 1.5,
+      "layer": "below",
+      "anchorType": "social"
+    },
+    {
+      "id": "whiteboard_large",
+      "prompt": "Large white rectangular whiteboard with a black marker tray, mounted on a wall, straight top-down bird's eye view",
       "count": 1,
       "w": 2,
-      "h": 1.5,
-      "layer": "below"
-    },
-    {
-      "id": "bookshelf_full",
-      "prompt": "wooden bookshelf, full of colorful books, decorative items, pixel art",
-      "count": 1,
-      "w": 1,
-      "h": 2,
-      "layer": "below"
-    },
-    {
-      "id": "fridge_mini",
-      "prompt": "mini-fridge, black finish, small door, pixel art",
-      "count": 1,
-      "w": 1,
       "h": 1,
-      "layer": "below",
-      "anchorType": "utility"
+      "layer": "below"
+    },
+    {
+      "id": "window_large",
+      "prompt": "Large rectangular window with thin black frames, letting in natural light, straight top-down bird's eye view",
+      "count": 3,
+      "w": 2,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "shelf_floating_wood",
+      "prompt": "Short floating wooden shelf with small decorative items, straight top-down bird's eye view",
+      "count": 2,
+      "w": 2,
+      "h": 0.5,
+      "layer": "below"
     }
   ],
   "layout": {
@@ -205,28 +213,8 @@
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1
-      ],
-      [
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        2,
+        2,
         0,
         0,
         0,
@@ -245,28 +233,8 @@
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1
-      ],
-      [
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        2,
+        2,
         0,
         0,
         0,
@@ -285,28 +253,8 @@
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1
-      ],
-      [
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        2,
+        2,
         0,
         0,
         0,
@@ -325,8 +273,8 @@
         0,
         0,
         0,
-        0,
-        0,
+        2,
+        2,
         0,
         0,
         0,
@@ -345,8 +293,68 @@
         0,
         0,
         0,
+        2,
+        2,
         0,
         0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
         0,
         0,
         0,
@@ -406,120 +414,156 @@
       },
       {
         "furnitureIndex": 0,
-        "x": 6,
+        "x": 7,
         "y": 2
       },
       {
         "furnitureIndex": 1,
-        "x": 7,
+        "x": 8,
         "y": 3.5
       },
       {
         "furnitureIndex": 0,
         "x": 2,
-        "y": 6
+        "y": 6.5
       },
       {
         "furnitureIndex": 1,
         "x": 3,
-        "y": 7.5
+        "y": 8
       },
       {
         "furnitureIndex": 0,
-        "x": 6,
-        "y": 6
+        "x": 7,
+        "y": 6.5
       },
       {
         "furnitureIndex": 1,
-        "x": 7,
-        "y": 7.5
+        "x": 8,
+        "y": 8
       },
       {
         "furnitureIndex": 2,
-        "x": 1,
-        "y": 4
+        "x": 1.5,
+        "y": 1.5
       },
       {
         "furnitureIndex": 2,
-        "x": 5,
-        "y": 9.5
+        "x": 6.5,
+        "y": 1.5
       },
       {
         "furnitureIndex": 2,
-        "x": 9,
-        "y": 1
+        "x": 1.5,
+        "y": 9
+      },
+      {
+        "furnitureIndex": 2,
+        "x": 6.5,
+        "y": 9
       },
       {
         "furnitureIndex": 3,
-        "x": 9.5,
-        "y": 3.7
+        "x": 2.5,
+        "y": 2.5
       },
       {
         "furnitureIndex": 3,
-        "x": 13.5,
-        "y": 7.7
+        "x": 7.5,
+        "y": 2.5
       },
       {
-        "furnitureIndex": 5,
-        "x": 12,
-        "y": 2
+        "furnitureIndex": 3,
+        "x": 2.5,
+        "y": 7
       },
       {
-        "furnitureIndex": 5,
-        "x": 14,
-        "y": 2
+        "furnitureIndex": 3,
+        "x": 7.5,
+        "y": 7
       },
       {
         "furnitureIndex": 4,
-        "x": 13,
-        "y": 2.5
+        "x": 12.5,
+        "y": 1.5
       },
       {
-        "furnitureIndex": 9,
-        "x": 15,
-        "y": 2.5
+        "furnitureIndex": 5,
+        "x": 13,
+        "y": 2
       },
       {
         "furnitureIndex": 6,
         "x": 13.5,
-        "y": 10
+        "y": 9.5
+      },
+      {
+        "furnitureIndex": 6,
+        "x": 11.5,
+        "y": 10.5
       },
       {
         "furnitureIndex": 6,
         "x": 15.5,
-        "y": 9.5
+        "y": 10.5
       },
       {
         "furnitureIndex": 7,
-        "x": 14,
+        "x": 13.5,
         "y": 8
       },
       {
         "furnitureIndex": 8,
+        "x": 0,
+        "y": 5,
+        "isWallDecor": true
+      },
+      {
+        "furnitureIndex": 9,
+        "x": 3,
+        "y": 0,
+        "isWallDecor": true
+      },
+      {
+        "furnitureIndex": 9,
+        "x": 7,
+        "y": 0,
+        "isWallDecor": true
+      },
+      {
+        "furnitureIndex": 9,
         "x": 11,
-        "y": 10
+        "y": 0,
+        "isWallDecor": true
+      },
+      {
+        "furnitureIndex": 10,
+        "x": 14,
+        "y": 1,
+        "isWallDecor": true
+      },
+      {
+        "furnitureIndex": 10,
+        "x": 14.5,
+        "y": 4,
+        "isWallDecor": true
       }
     ],
     "wanderPoints": [
       {
-        "name": "wander_center_lounge",
-        "x": 14,
-        "y": 6
+        "name": "wander_center",
+        "x": 6,
+        "y": 5
       },
       {
-        "name": "wander_coffeebar",
+        "name": "wander_lounge",
+        "x": 13,
+        "y": 9
+      },
+      {
+        "name": "wander_coffee",
         "x": 13,
         "y": 4
-      },
-      {
-        "name": "wander_desk_area",
-        "x": 5,
-        "y": 4
-      },
-      {
-        "name": "wander_corridor",
-        "x": 9.5,
-        "y": 6
       }
     ]
   }

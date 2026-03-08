@@ -1,6 +1,6 @@
 {
-  "gridCols": 18,
-  "gridRows": 14,
+  "gridCols": 20,
+  "gridRows": 11,
   "floor": [
     [
       1,
@@ -20,246 +20,8 @@
       1,
       1,
       1,
-      1
-    ],
-    [
       1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1
-    ],
-    [
       1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1
-    ],
-    [
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1
-    ],
-    [
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1
-    ],
-    [
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1
-    ],
-    [
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1
-    ],
-    [
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1
-    ],
-    [
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1
-    ],
-    [
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1
-    ],
-    [
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1
-    ],
-    [
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1
-    ],
-    [
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
       1
     ],
     [
@@ -280,20 +42,220 @@
       1,
       1,
       1,
+      1,
+      1,
       1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
     ]
   ],
   "furniture": [
     {
-      "id": "desk_wood_modern",
+      "id": "standing_desk",
       "x": 2,
       "y": 2,
       "w": 3,
-      "h": 2,
+      "h": 1.5,
       "layer": "below",
       "anchors": [
         {
-          "name": "desk_wood_modern_0_0",
+          "name": "standing_desk_0_0",
           "ox": 1,
           "oy": 2,
           "type": "work"
@@ -301,266 +263,304 @@
       ]
     },
     {
-      "id": "office_chair_swivel",
+      "id": "herman_miller_chair",
       "x": 3,
       "y": 3.5,
-      "w": 1.5,
-      "h": 1.5,
-      "layer": "above"
-    },
-    {
-      "id": "desk_wood_modern",
-      "x": 6,
-      "y": 2,
-      "w": 3,
-      "h": 2,
-      "layer": "below",
-      "anchors": [
-        {
-          "name": "desk_wood_modern_2_0",
-          "ox": 1,
-          "oy": 2,
-          "type": "work"
-        }
-      ]
-    },
-    {
-      "id": "office_chair_swivel",
-      "x": 7,
-      "y": 3.5,
-      "w": 1.5,
-      "h": 1.5,
-      "layer": "above"
-    },
-    {
-      "id": "desk_wood_modern",
-      "x": 2,
-      "y": 6,
-      "w": 3,
-      "h": 2,
-      "layer": "below",
-      "anchors": [
-        {
-          "name": "desk_wood_modern_4_0",
-          "ox": 1,
-          "oy": 2,
-          "type": "work"
-        }
-      ]
-    },
-    {
-      "id": "office_chair_swivel",
-      "x": 3,
-      "y": 7.5,
-      "w": 1.5,
-      "h": 1.5,
-      "layer": "above"
-    },
-    {
-      "id": "desk_wood_modern",
-      "x": 6,
-      "y": 6,
-      "w": 3,
-      "h": 2,
-      "layer": "below",
-      "anchors": [
-        {
-          "name": "desk_wood_modern_6_0",
-          "ox": 1,
-          "oy": 2,
-          "type": "work"
-        }
-      ]
-    },
-    {
-      "id": "office_chair_swivel",
-      "x": 7,
-      "y": 7.5,
-      "w": 1.5,
-      "h": 1.5,
-      "layer": "above"
-    },
-    {
-      "id": "potted_plant_tall",
-      "x": 1,
-      "y": 4,
       "w": 1,
       "h": 1,
-      "layer": "below"
-    },
-    {
-      "id": "potted_plant_tall",
-      "x": 5,
-      "y": 9.5,
-      "w": 1,
-      "h": 1,
-      "layer": "below"
-    },
-    {
-      "id": "potted_plant_tall",
-      "x": 9,
-      "y": 1,
-      "w": 1,
-      "h": 1,
-      "layer": "below"
-    },
-    {
-      "id": "potted_plant_small",
-      "x": 9.5,
-      "y": 3.7,
-      "w": 0.8,
-      "h": 0.8,
-      "layer": "below"
-    },
-    {
-      "id": "potted_plant_small",
-      "x": 13.5,
-      "y": 7.7,
-      "w": 0.8,
-      "h": 0.8,
-      "layer": "below"
-    },
-    {
-      "id": "coffee_counter",
-      "x": 12,
-      "y": 2,
-      "w": 2,
-      "h": 1,
-      "layer": "below"
-    },
-    {
-      "id": "coffee_counter",
-      "x": 14,
-      "y": 2,
-      "w": 2,
-      "h": 1,
-      "layer": "below"
-    },
-    {
-      "id": "coffee_machine",
-      "x": 13,
-      "y": 2.5,
-      "w": 1,
-      "h": 1,
-      "layer": "below",
+      "layer": "above",
       "anchors": [
         {
-          "name": "coffee_machine_15_0",
+          "name": "herman_miller_chair_1_0",
           "ox": 0.5,
           "oy": 1,
-          "type": "utility"
+          "type": "rest"
         }
       ]
     },
     {
-      "id": "fridge_mini",
+      "id": "standing_desk",
+      "x": 6,
+      "y": 2,
+      "w": 3,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "standing_desk_2_0",
+          "ox": 1,
+          "oy": 2,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "herman_miller_chair",
+      "x": 7,
+      "y": 3.5,
+      "w": 1,
+      "h": 1,
+      "layer": "above",
+      "anchors": [
+        {
+          "name": "herman_miller_chair_3_0",
+          "ox": 0.5,
+          "oy": 1,
+          "type": "rest"
+        }
+      ]
+    },
+    {
+      "id": "standing_desk",
+      "x": 2,
+      "y": 5,
+      "w": 3,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "standing_desk_4_0",
+          "ox": 1,
+          "oy": 2,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "herman_miller_chair",
+      "x": 3,
+      "y": 6.5,
+      "w": 1,
+      "h": 1,
+      "layer": "above",
+      "anchors": [
+        {
+          "name": "herman_miller_chair_5_0",
+          "ox": 0.5,
+          "oy": 1,
+          "type": "rest"
+        }
+      ]
+    },
+    {
+      "id": "standing_desk",
+      "x": 6,
+      "y": 5,
+      "w": 3,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "standing_desk_6_0",
+          "ox": 1,
+          "oy": 2,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "herman_miller_chair",
+      "x": 7,
+      "y": 6.5,
+      "w": 1,
+      "h": 1,
+      "layer": "above",
+      "anchors": [
+        {
+          "name": "herman_miller_chair_7_0",
+          "ox": 0.5,
+          "oy": 1,
+          "type": "rest"
+        }
+      ]
+    },
+    {
+      "id": "l_sectional_sofa",
+      "x": 14.5,
+      "y": 6,
+      "w": 4.5,
+      "h": 3,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "l_sectional_sofa_8_0",
+          "ox": 2.25,
+          "oy": 3,
+          "type": "social"
+        }
+      ]
+    },
+    {
+      "id": "glass_coffee_table",
       "x": 15,
-      "y": 2.5,
-      "w": 1,
-      "h": 1,
-      "layer": "below",
-      "anchors": [
-        {
-          "name": "fridge_mini_16_0",
-          "ox": 0.5,
-          "oy": 1,
-          "type": "utility"
-        }
-      ]
-    },
-    {
-      "id": "beanbag_orange",
-      "x": 13.5,
-      "y": 10,
-      "w": 2,
-      "h": 2,
-      "layer": "below",
-      "anchors": [
-        {
-          "name": "beanbag_orange_17_0",
-          "ox": 1,
-          "oy": 2,
-          "type": "rest"
-        }
-      ]
-    },
-    {
-      "id": "beanbag_orange",
-      "x": 15.5,
-      "y": 9.5,
-      "w": 2,
-      "h": 2,
-      "layer": "below",
-      "anchors": [
-        {
-          "name": "beanbag_orange_18_0",
-          "ox": 1,
-          "oy": 2,
-          "type": "rest"
-        }
-      ]
-    },
-    {
-      "id": "low_table_wood",
-      "x": 14,
       "y": 8,
       "w": 2,
       "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "glass_coffee_table_9_0",
+          "ox": 1,
+          "oy": 1.5,
+          "type": "social"
+        }
+      ]
+    },
+    {
+      "id": "orchid_vase",
+      "x": 15.75,
+      "y": 8.25,
+      "w": 0.5,
+      "h": 0.5,
       "layer": "below"
     },
     {
-      "id": "bookshelf_full",
-      "x": 11,
-      "y": 10,
+      "id": "espresso_machine",
+      "x": 15.25,
+      "y": 1.25,
+      "w": 1.5,
+      "h": 1,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "espresso_machine_11_0",
+          "ox": 0.75,
+          "oy": 1,
+          "type": "utility"
+        }
+      ]
+    },
+    {
+      "id": "wine_fridge",
+      "x": 12.25,
+      "y": 1,
+      "w": 0.75,
+      "h": 1.75,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "wine_fridge_12_0",
+          "ox": 0.375,
+          "oy": 1.75,
+          "type": "utility"
+        }
+      ]
+    },
+    {
+      "id": "fiddle_leaf_fig",
+      "x": 4,
+      "y": 8,
       "w": 1,
-      "h": 2,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "fiddle_leaf_fig",
+      "x": 13.25,
+      "y": 6.25,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "fiddle_leaf_fig",
+      "x": 10,
+      "y": 5,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "abstract_art",
+      "x": 13.25,
+      "y": 0.25,
+      "w": 2,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "glass_whiteboard",
+      "x": 2,
+      "y": 9,
+      "w": 3,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "dyson_air_purifier",
+      "x": 1,
+      "y": 14,
+      "w": 0.5,
+      "h": 0.5,
+      "layer": "below"
+    },
+    {
+      "id": "panoramic_window",
+      "x": 1.25,
+      "y": 0,
+      "w": 2.000000000000001,
+      "h": 2.000000000000001,
+      "layer": "below"
+    },
+    {
+      "id": "panoramic_window",
+      "x": 3.25,
+      "y": 0,
+      "w": 2.000000000000001,
+      "h": 2.000000000000001,
+      "layer": "below"
+    },
+    {
+      "id": "panoramic_window",
+      "x": 5.25,
+      "y": 0,
+      "w": 2.000000000000001,
+      "h": 2.000000000000001,
+      "layer": "below"
+    },
+    {
+      "id": "panoramic_window",
+      "x": 7.25,
+      "y": 0,
+      "w": 2.000000000000001,
+      "h": 2.000000000000001,
+      "layer": "below"
+    },
+    {
+      "id": "zen_fountain_credenza",
+      "x": 17.25,
+      "y": 0.5,
+      "w": 1.8,
+      "h": 2.1,
       "layer": "below"
     }
   ],
   "characters": {
-    "morty": "desk_wood_modern_0_0",
-    "dexter": "desk_wood_modern_2_0",
-    "nova": "desk_wood_modern_4_0",
-    "rio": "desk_wood_modern_6_0"
+    "morty": "standing_desk_0_0",
+    "dexter": "standing_desk_2_0",
+    "nova": "standing_desk_4_0",
+    "rio": "standing_desk_6_0"
   },
   "wanderPoints": [
     {
-      "name": "wander_center_lounge",
-      "x": 14,
-      "y": 6
+      "name": "wander_main_aisle_1",
+      "x": 4,
+      "y": 11
     },
     {
-      "name": "wander_coffeebar",
+      "name": "wander_main_aisle_2",
+      "x": 9,
+      "y": 7
+    },
+    {
+      "name": "wander_lounge_center",
+      "x": 17,
+      "y": 10
+    },
+    {
+      "name": "wander_cafe_area",
       "x": 13,
-      "y": 4
-    },
-    {
-      "name": "wander_desk_area",
-      "x": 5,
-      "y": 4
-    },
-    {
-      "name": "wander_corridor",
-      "x": 9.5,
-      "y": 6
+      "y": 3
     }
-  ],
-  "spriteMap": {
-    "desk_wood_modern": "/sprites/furniture_0_desk_wood_modern.png",
-    "office_chair_swivel": "/sprites/furniture_1_office_chair_swivel.png",
-    "potted_plant_tall": "/sprites/furniture_2_potted_plant_tall.png",
-    "potted_plant_small": "/sprites/furniture_3_potted_plant_small.png",
-    "coffee_machine": "/sprites/furniture_4_coffee_machine.png",
-    "coffee_counter": "/sprites/furniture_5_coffee_counter.png",
-    "beanbag_orange": "/sprites/furniture_6_beanbag_orange.png",
-    "low_table_wood": "/sprites/furniture_7_low_table_wood.png",
-    "bookshelf_full": "/sprites/furniture_8_bookshelf_full.png",
-    "fridge_mini": "/sprites/furniture_9_fridge_mini.png"
-  },
-  "tileNames": {
-    "0": "Reclaimed Wood Floor",
-    "1": "Exposed Brick Wall",
-    "2": "Concrete Accent Floor",
-    "3": "Dark Tile Accent Floor"
-  }
+  ]
 }

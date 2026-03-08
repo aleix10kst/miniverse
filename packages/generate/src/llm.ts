@@ -42,13 +42,24 @@ export async function llm(options: LLMOptions): Promise<LLMResult> {
  * Call LLM and parse the response as JSON.
  * Strips markdown code fences if present.
  */
-export async function llmJSON<T = unknown>(options: LLMOptions): Promise<T> {
-  const result = await llm(options);
-  let text = result.output.trim();
+export async function llmJSON<T = unknown>(options: LLMOptions, retries = 2): Promise<T> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const result = await llm(options);
+    let text = result.output.trim();
 
-  // Strip ```json ... ``` wrapping
-  const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/);
-  if (fenceMatch) text = fenceMatch[1].trim();
+    // Strip ```json ... ``` wrapping
+    const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/);
+    if (fenceMatch) text = fenceMatch[1].trim();
 
-  return JSON.parse(text) as T;
+    try {
+      return JSON.parse(text) as T;
+    } catch (e) {
+      if (attempt < retries) {
+        console.warn(`JSON parse failed (attempt ${attempt + 1}), retrying...`);
+        continue;
+      }
+      throw e;
+    }
+  }
+  throw new Error('Unreachable');
 }

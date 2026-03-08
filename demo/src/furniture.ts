@@ -77,7 +77,7 @@ export interface LoadedPiece extends FurniturePiece {
 
 export class FurnitureSystem {
   pieces: LoadedPiece[] = [];
-  selected: LoadedPiece | null = null;
+  selected: Set<LoadedPiece> = new Set();
   wanderPoints: { name: string; x: number; y: number }[];
 
   private images: Map<string, HTMLImageElement> = new Map();
@@ -85,8 +85,8 @@ export class FurnitureSystem {
   private tileSize: number;
   private scale: number;
   private dragging = false;
-  private dragOffsetX = 0;
-  private dragOffsetY = 0;
+  private dragOffsets: Map<LoadedPiece, { dx: number; dy: number }> = new Map();
+  private clipboard: { id: string; w: number; h: number; layer: 'below' | 'above'; anchors: Anchor[] }[] = [];
   private onSaveCallback: (() => void) | null = null;
   private deadspaceCheck: ((col: number, row: number) => boolean) | null = null;
 
@@ -247,7 +247,7 @@ export class FurnitureSystem {
 
   removePiece(piece: LoadedPiece) {
     this.pieces = this.pieces.filter(p => p !== piece);
-    if (this.selected === piece) this.selected = null;
+    this.selected.delete(piece);
   }
 
   // --- Rendering ---
@@ -274,70 +274,136 @@ export class FurnitureSystem {
 
   // --- Mouse interaction (world pixel coords) ---
 
-  handleMouseDown(wx: number, wy: number): boolean {
+  handleMouseDown(wx: number, wy: number, shiftKey = false): boolean {
     const hit = this.pieceAt(wx, wy);
-    this.selected = hit;
     if (hit) {
+      if (shiftKey) {
+        // Toggle in/out of selection
+        if (this.selected.has(hit)) {
+          this.selected.delete(hit);
+        } else {
+          this.selected.add(hit);
+        }
+      } else if (!this.selected.has(hit)) {
+        // Replace selection unless clicking an already-selected piece
+        this.selected.clear();
+        this.selected.add(hit);
+      }
       this.dragging = true;
-      this.dragOffsetX = wx - hit.x * this.tileSize;
-      this.dragOffsetY = wy - hit.y * this.tileSize;
+      // Store drag offset for each selected piece
+      this.dragOffsets.clear();
+      for (const p of this.selected) {
+        this.dragOffsets.set(p, {
+          dx: wx - p.x * this.tileSize,
+          dy: wy - p.y * this.tileSize,
+        });
+      }
       return true;
     }
+    if (!shiftKey) this.selected.clear();
     return false;
   }
 
   handleMouseMove(wx: number, wy: number) {
-    if (!this.dragging || !this.selected) return;
+    if (!this.dragging || this.selected.size === 0) return;
     const T = this.tileSize;
-    const newX = this.snap((wx - this.dragOffsetX) / T);
-    const newY = this.snap((wy - this.dragOffsetY) / T);
 
-    // Don't allow dragging into deadspace
-    if (this.overlapsDeadspace(newX, newY, this.selected.w, this.selected.h)) return;
+    // Calculate new positions for all selected pieces
+    const moves: { piece: LoadedPiece; nx: number; ny: number }[] = [];
+    for (const p of this.selected) {
+      const off = this.dragOffsets.get(p);
+      if (!off) continue;
+      const nx = this.snap((wx - off.dx) / T);
+      const ny = this.snap((wy - off.dy) / T);
+      if (this.overlapsDeadspace(nx, ny, p.w, p.h)) return; // abort all if any hits deadspace
+      moves.push({ piece: p, nx, ny });
+    }
 
-    this.selected.x = newX;
-    this.selected.y = newY;
+    for (const m of moves) {
+      m.piece.x = m.nx;
+      m.piece.y = m.ny;
+    }
   }
 
   handleMouseUp() { this.dragging = false; }
 
   handleKey(e: KeyboardEvent): boolean {
-    if (!this.selected) return false;
-
-    if ((e.key === 'Delete' || e.key === 'Backspace') && this.selected) {
-      this.removePiece(this.selected);
+    // Copy: Ctrl/Cmd+C
+    if ((e.metaKey || e.ctrlKey) && e.key === 'c' && this.selected.size > 0) {
+      this.clipboard = [...this.selected].map(p => ({
+        id: p.id, w: p.w, h: p.h, layer: p.layer,
+        anchors: p.anchors.map(a => ({ ...a })),
+      }));
       return true;
     }
 
-    if ((e.key === 'l' || e.key === 'L') && this.selected) {
-      this.selected.layer = this.selected.layer === 'below' ? 'above' : 'below';
+    // Paste: Ctrl/Cmd+V
+    if ((e.metaKey || e.ctrlKey) && e.key === 'v' && this.clipboard.length > 0) {
+      this.selected.clear();
+      for (const item of this.clipboard) {
+        const img = this.images.get(item.id);
+        if (!img) continue;
+        const index = this.pieces.length;
+        const piece: LoadedPiece = {
+          id: item.id, img,
+          x: 4 + Math.random() * 2, y: 4 + Math.random() * 2,
+          w: item.w, h: item.h,
+          layer: item.layer,
+          anchors: item.anchors.map((a, i) => ({
+            ...a, name: `${item.id}_${index}_${i}`,
+          })),
+        };
+        this.pieces.push(piece);
+        this.selected.add(piece);
+      }
       return true;
     }
 
-    if (this.selected && e.key.startsWith('Arrow')) {
+    if (this.selected.size === 0) return false;
+
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+      for (const p of this.selected) {
+        this.pieces = this.pieces.filter(pp => pp !== p);
+      }
+      this.selected.clear();
+      return true;
+    }
+
+    if (e.key === 'l' || e.key === 'L') {
+      for (const p of this.selected) {
+        p.layer = p.layer === 'below' ? 'above' : 'below';
+      }
+      return true;
+    }
+
+    if (e.key.startsWith('Arrow')) {
       const step = e.shiftKey ? 1 : 0.25;
-      const s = this.selected;
-      let nx = s.x, ny = s.y;
-      if (e.key === 'ArrowLeft') nx -= step;
-      if (e.key === 'ArrowRight') nx += step;
-      if (e.key === 'ArrowUp') ny -= step;
-      if (e.key === 'ArrowDown') ny += step;
-      if (!this.overlapsDeadspace(nx, ny, s.w, s.h)) {
-        s.x = nx;
-        s.y = ny;
+      let dx = 0, dy = 0;
+      if (e.key === 'ArrowLeft') dx = -step;
+      if (e.key === 'ArrowRight') dx = step;
+      if (e.key === 'ArrowUp') dy = -step;
+      if (e.key === 'ArrowDown') dy = step;
+      // Check all can move
+      for (const s of this.selected) {
+        if (this.overlapsDeadspace(s.x + dx, s.y + dy, s.w, s.h)) return true;
+      }
+      for (const s of this.selected) {
+        s.x += dx;
+        s.y += dy;
       }
       e.preventDefault();
       return true;
     }
 
-    if (this.selected && (e.key === '=' || e.key === '+')) {
-      this.selected.w += 0.1;
-      this.selected.h += 0.1;
+    if (e.key === '=' || e.key === '+') {
+      for (const p of this.selected) { p.w += 0.1; p.h += 0.1; }
       return true;
     }
-    if (this.selected && e.key === '-') {
-      this.selected.w = Math.max(0.5, this.selected.w - 0.1);
-      this.selected.h = Math.max(0.5, this.selected.h - 0.1);
+    if (e.key === '-') {
+      for (const p of this.selected) {
+        p.w = Math.max(0.5, p.w - 0.1);
+        p.h = Math.max(0.5, p.h - 0.1);
+      }
       return true;
     }
 

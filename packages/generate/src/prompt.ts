@@ -6,7 +6,7 @@
 const BASE_STYLE = [
   '32-bit pixel art',
   'top-down RPG style',
-  'consistent top-left light source',
+  'consistent subtle top-left shading',
   'soft sub-pixel shading with 3-4 value ramps per color',
   'selective dark outlines (hue-shifted not black)',
   'slight dithering on large surfaces',
@@ -48,18 +48,19 @@ const ACTION_SHEET_STRUCTURE = [
 
 const FURNITURE_STRUCTURE = [
   'furniture sprites for a pixel RPG modern office',
-  'top-down 3/4 view facing down (toward camera) same perspective as a top-down RPG where camera looks down at ~30 degrees',
+  'straight top-down bird\'s eye view looking directly down at 90 degrees',
+  'NOT 3/4 view NOT isometric NOT angled — perfectly flat top-down like a floor plan',
   'each item on transparent background arranged in a single image with spacing between items',
   'no characters no people',
-  'all items must share the same 3/4 angle and lighting direction',
+  'all items must share the same straight top-down perspective and lighting direction',
 ].join(', ');
 
 const OBJECT_STRUCTURE = [
   'single object sprite for a pixel RPG',
-  'top-down 3/4 view facing down (toward camera)',
+  'straight top-down bird\'s eye view looking directly down at 90 degrees',
+  'NOT 3/4 view NOT isometric NOT angled — perfectly flat top-down like a floor plan',
   'single item centered on transparent background',
   'no characters no people',
-  'same perspective as a top-down RPG where camera looks down at ~30 degrees',
 ].join(', ');
 
 const TEXTURE_STRUCTURE = [
@@ -71,6 +72,10 @@ const TEXTURE_STRUCTURE = [
   'the texture pattern must fill the ENTIRE image edge to edge with absolutely NO border NO frame NO margin NO padding NO outline',
   'solid opaque background',
   'full bleed pattern only',
+  'SUBTLE and QUIET — use a single base color with very minor tonal variation',
+  'low contrast only — no loud patterns no bright multicolor no high contrast details',
+  'the floor should recede into the background and not compete with furniture or characters',
+  'think simple muted flat surface not decorative',
 ].join(', ');
 
 export type SheetType = 'walk' | 'action' | 'furniture' | 'object' | 'texture';
@@ -82,9 +87,9 @@ export function buildPrompt(description: string, type: SheetType): string {
     case 'action':
       return `${BASE_STYLE}, ${ACTION_SHEET_STRUCTURE}, ${description}, consistent with walking sheet style, character fills about 80% of each cell height`;
     case 'furniture':
-      return `${BASE_STYLE}, ${FURNITURE_STRUCTURE}, ${description}, warm office lighting from top-left, consistent style across all items`;
+      return `${BASE_STYLE}, ${FURNITURE_STRUCTURE}, ${description}, consistent style across all items`;
     case 'object':
-      return `${BASE_STYLE}, ${OBJECT_STRUCTURE}, ${description}, warm office lighting from top-left`;
+      return `${BASE_STYLE}, ${OBJECT_STRUCTURE}, ${description}`;
     case 'texture':
       return `${BASE_STYLE}, ${TEXTURE_STRUCTURE}, ${description}`;
   }

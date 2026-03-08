@@ -32,8 +32,20 @@ function mockAgentData(): AgentStatus[] {
   }));
 }
 
+// --- World registry ---
+interface WorldEntry { id: string; name: string; }
+
+function getWorldId(): string {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('world') ?? 'cozy-startup';
+}
+
+function worldBasePath(worldId: string): string {
+  return `/worlds/${worldId}`;
+}
+
 // Build the scene config
-function buildSceneConfig(cols = 16, rows = 12, savedFloor?: number[][]): SceneConfig {
+function buildSceneConfig(cols = 16, rows = 12, savedFloor?: number[][], basePath = ''): SceneConfig {
 
   const floor: number[][] = [];
   const walkable: boolean[][] = [];
@@ -50,7 +62,8 @@ function buildSceneConfig(cols = 16, rows = 12, savedFloor?: number[][]): SceneC
       } else {
         floor[r][c] = 0;
       }
-      walkable[r][c] = floor[r][c] >= 0 && !(r === 0 || r === rows - 1 || c === 0 || c === cols - 1);
+      // Non-walkable: deadspace (<0) or wall texture (1)
+      walkable[r][c] = floor[r][c] >= 0 && floor[r][c] !== 1;
     }
   }
 
@@ -73,7 +86,7 @@ function buildSceneConfig(cols = 16, rows = 12, savedFloor?: number[][]): SceneC
       lounge: { x: 5, y: 8, label: 'Lounge' },
     },
     tilesets: [{
-      image: '/tilesets/tileset.png',
+      image: `${basePath}/tilesets/tileset.png`,
       tileWidth: 32,
       tileHeight: 32,
       columns: 16,
@@ -85,6 +98,24 @@ async function main() {
   const container = document.getElementById('miniverse-container')!;
   const tooltip = document.getElementById('tooltip')!;
   const statusBar = document.getElementById('status-bar')!;
+  const worldSelect = document.getElementById('world-select') as HTMLSelectElement;
+
+  // Load world registry and populate selector
+  const worldId = getWorldId();
+  const basePath = worldBasePath(worldId);
+  const worlds: WorldEntry[] = await fetch('/worlds/index.json').then(r => r.json()).catch(() => []);
+  for (const w of worlds) {
+    const opt = document.createElement('option');
+    opt.value = w.id;
+    opt.textContent = w.name;
+    if (w.id === worldId) opt.selected = true;
+    worldSelect.appendChild(opt);
+  }
+  worldSelect.addEventListener('change', () => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('world', worldSelect.value);
+    window.location.search = params.toString();
+  });
 
   // Build sprite config for each character: walk sheet + action sheet
   function charSprites(name: string): SpriteSheetConfig {
@@ -119,11 +150,11 @@ async function main() {
   };
 
   // Load scene data (furniture + characters + wander points + grid size)
-  const sceneData = await fetch('/scene.json').then(r => r.json()).catch(() => null);
+  const sceneData = await fetch(`${basePath}/scene.json`).then(r => r.json()).catch(() => null);
 
   const gridCols = sceneData?.gridCols ?? 16;
   const gridRows = sceneData?.gridRows ?? 12;
-  const sceneConfig = buildSceneConfig(gridCols, gridRows, sceneData?.floor);
+  const sceneConfig = buildSceneConfig(gridCols, gridRows, sceneData?.floor, basePath);
 
   const tileSize = 32;
 
@@ -180,20 +211,10 @@ async function main() {
   // --- Furniture system (load before start so anchors exist for initial placement) ---
   const furniture = new FurnitureSystem(32, 2);
 
-  // Load furniture sprites from scene data (dynamic) or fallback to defaults
-  const spriteMap: Record<string, string> = sceneData?.spriteMap ?? {
-    desk: '/sprites/piece_0.png',
-    chair: '/sprites/chair_back.png',
-    couch: '/sprites/piece_2.png',
-    coffee_machine: '/sprites/piece_3.png',
-    bookshelf: '/sprites/piece_4.png',
-    water_cooler: '/sprites/piece_5.png',
-    plant: '/sprites/piece_6.png',
-    whiteboard: '/sprites/piece_8.png',
-    lamp: '/sprites/piece_9.png',
-  };
+  // Load furniture sprites from scene data (dynamic) — prefix with world basePath
+  const rawSpriteMap: Record<string, string> = sceneData?.spriteMap ?? {};
   await Promise.all(
-    Object.entries(spriteMap).map(([id, src]) => furniture.loadSprite(id, src)),
+    Object.entries(rawSpriteMap).map(([id, src]) => furniture.loadSprite(id, `${basePath}${src}`)),
   );
 
   furniture.setLayout(sceneData?.furniture ?? []);

@@ -1,0 +1,848 @@
+{
+  "name": "gear-supply-office",
+  "gridCols": 24,
+  "gridRows": 18,
+  "textures": [
+    {
+      "id": "main_floor",
+      "prompt": "dark rich wood planks, subtle grain, glossy finish, muted brown, straight top-down bird's eye view",
+      "role": "floor"
+    },
+    {
+      "id": "main_wall",
+      "prompt": "clean white painted brick stucco wall, very subtle texture, straight top-down bird's eye view",
+      "role": "wall"
+    },
+    {
+      "id": "green_wall_accent",
+      "prompt": "lush vibrant green moss vertical garden wall, dense organic texture, straight top-down bird's eye view",
+      "role": "wall_accent"
+    },
+    {
+      "id": "office_wall_accent",
+      "prompt": "smooth medium blue-grey painted wall, plain, subtle, straight top-down bird's eye view",
+      "role": "wall_accent"
+    }
+  ],
+  "furniture": [
+    {
+      "id": "desk_corner_left",
+      "prompt": "white corner L-shaped office desk with monitor and keyboard, minimalist design, straight top-down bird's eye view",
+      "count": 1,
+      "w": 3,
+      "h": 3,
+      "layer": "below",
+      "anchorType": "work"
+    },
+    {
+      "id": "desk_corner_right",
+      "prompt": "white corner L-shaped office desk with monitor and keyboard, minimalist design, straight top-down bird's eye view",
+      "count": 3,
+      "w": 3,
+      "h": 3,
+      "layer": "below",
+      "anchorType": "work"
+    },
+    {
+      "id": "office_chair_black",
+      "prompt": "modern black office chair with wheels, straight top-down bird's eye view",
+      "count": 4,
+      "w": 1,
+      "h": 1,
+      "layer": "above"
+    },
+    {
+      "id": "yellow_armchair",
+      "prompt": "bright mustard yellow upholstered armchair with dark wooden legs, straight top-down bird's eye view",
+      "count": 2,
+      "w": 2,
+      "h": 2,
+      "layer": "below",
+      "anchorType": "social"
+    },
+    {
+      "id": "coffee_table_low",
+      "prompt": "low modern wooden coffee table with a white top and metal legs, holding a small plant in a white pot, straight top-down bird's eye view",
+      "count": 1,
+      "w": 3,
+      "h": 2,
+      "layer": "below",
+      "anchorType": "social"
+    },
+    {
+      "id": "orange_ottoman",
+      "prompt": "small round bright orange upholstered ottoman, straight top-down bird's eye view",
+      "count": 2,
+      "w": 1,
+      "h": 1,
+      "layer": "below",
+      "anchorType": "social"
+    },
+    {
+      "id": "rug_patterned",
+      "prompt": "rectangular area rug with a subtle geometric grey and white pattern, straight top-down bird's eye view",
+      "count": 1,
+      "w": 4,
+      "h": 3,
+      "layer": "below"
+    },
+    {
+      "id": "fridge_stainless",
+      "prompt": "tall stainless steel double-door refrigerator with a water dispenser on one door, straight top-down bird's eye view",
+      "count": 1,
+      "w": 1,
+      "h": 1,
+      "layer": "below",
+      "anchorType": "utility"
+    },
+    {
+      "id": "kitchen_counter_sink",
+      "prompt": "dark blue kitchen counter section with an integrated sink and faucet, straight top-down bird's eye view",
+      "count": 1,
+      "w": 2,
+      "h": 1,
+      "layer": "below",
+      "anchorType": "utility"
+    },
+    {
+      "id": "kitchen_counter_plain",
+      "prompt": "dark blue kitchen counter section, clean and empty, straight top-down bird's eye view",
+      "count": 1,
+      "w": 2,
+      "h": 1,
+      "layer": "below",
+      "anchorType": "utility"
+    },
+    {
+      "id": "tall_cabinet_dark",
+      "prompt": "tall dark blue or black storage cabinet with two doors, straight top-down bird's eye view",
+      "count": 1,
+      "w": 1,
+      "h": 1,
+      "layer": "below",
+      "anchorType": "utility"
+    },
+    {
+      "id": "decorative_wall_panel_left",
+      "prompt": "vertical wall art panel with a geometric pattern in dark wood and white, left section, straight top-down bird's eye view",
+      "count": 1,
+      "w": 1,
+      "h": 2,
+      "layer": "below"
+    },
+    {
+      "id": "decorative_wall_panel_right",
+      "prompt": "vertical wall art panel with a geometric pattern in dark wood and white, right section, straight top-down bird's eye view",
+      "count": 1,
+      "w": 1,
+      "h": 2,
+      "layer": "below"
+    },
+    {
+      "id": "window_large_vertical",
+      "prompt": "large vertical office window with thin black frames, letting in bright light, straight top-down bird's eye view",
+      "count": 1,
+      "w": 1,
+      "h": 3,
+      "layer": "below"
+    },
+    {
+      "id": "framed_pictures_shelf",
+      "prompt": "long narrow wall shelf with several small framed pictures leaning against the wall, straight top-down bird's eye view",
+      "count": 2,
+      "w": 1,
+      "h": 2,
+      "layer": "below"
+    },
+    {
+      "id": "stool_aqua",
+      "prompt": "small round aqua blue upholstered stool, straight top-down bird's eye view",
+      "count": 1,
+      "w": 1,
+      "h": 1,
+      "layer": "below",
+      "anchorType": "social"
+    },
+    {
+      "id": "wood_cushion_chair",
+      "prompt": "modern armchair with a light wooden frame and a white cushion, straight top-down bird's eye view",
+      "count": 1,
+      "w": 1,
+      "h": 1,
+      "layer": "below",
+      "anchorType": "social"
+    },
+    {
+      "id": "logo_neon",
+      "prompt": "neon 'gearsupply' logo in blue and orange glowing letters, straight top-down bird's eye view",
+      "count": 1,
+      "w": 3,
+      "h": 1,
+      "layer": "below"
+    }
+  ],
+  "layout": {
+    "floor": [
+      [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    ],
+    "placements": [
+      {
+        "furnitureIndex": 0,
+        "x": 19,
+        "y": 9,
+        "workAnchor": {
+          "x": 1,
+          "y": 2
+        }
+      },
+      {
+        "furnitureIndex": 1,
+        "x": 15,
+        "y": 9,
+        "workAnchor": {
+          "x": 1,
+          "y": 2
+        }
+      },
+      {
+        "furnitureIndex": 1,
+        "x": 19,
+        "y": 12,
+        "workAnchor": {
+          "x": 1,
+          "y": 2
+        }
+      },
+      {
+        "furnitureIndex": 1,
+        "x": 15,
+        "y": 12,
+        "workAnchor": {
+          "x": 1,
+          "y": 2
+        }
+      },
+      {
+        "furnitureIndex": 2,
+        "x": 20,
+        "y": 11
+      },
+      {
+        "furnitureIndex": 2,
+        "x": 16,
+        "y": 11
+      },
+      {
+        "furnitureIndex": 2,
+        "x": 20,
+        "y": 14
+      },
+      {
+        "furnitureIndex": 2,
+        "x": 16,
+        "y": 14
+      },
+      {
+        "furnitureIndex": 3,
+        "x": 2,
+        "y": 9
+      },
+      {
+        "furnitureIndex": 3,
+        "x": 5,
+        "y": 9
+      },
+      {
+        "furnitureIndex": 4,
+        "x": 3,
+        "y": 7
+      },
+      {
+        "furnitureIndex": 5,
+        "x": 2,
+        "y": 6
+      },
+      {
+        "furnitureIndex": 5,
+        "x": 6,
+        "y": 6
+      },
+      {
+        "furnitureIndex": 6,
+        "x": 2,
+        "y": 6
+      },
+      {
+        "furnitureIndex": 7,
+        "x": 1,
+        "y": 2
+      },
+      {
+        "furnitureIndex": 8,
+        "x": 2,
+        "y": 2
+      },
+      {
+        "furnitureIndex": 9,
+        "x": 4,
+        "y": 2
+      },
+      {
+        "furnitureIndex": 10,
+        "x": 6,
+        "y": 2
+      },
+      {
+        "furnitureIndex": 11,
+        "x": 11,
+        "y": 14
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 13,
+        "y": 14
+      },
+      {
+        "furnitureIndex": 13,
+        "x": 13,
+        "y": 1
+      },
+      {
+        "furnitureIndex": 13,
+        "x": 13,
+        "y": 4
+      },
+      {
+        "furnitureIndex": 14,
+        "x": 1,
+        "y": 1,
+        "h": 2
+      },
+      {
+        "furnitureIndex": 14,
+        "x": 1,
+        "y": 4,
+        "h": 2
+      },
+      {
+        "furnitureIndex": 15,
+        "x": 10,
+        "y": 11
+      },
+      {
+        "furnitureIndex": 16,
+        "x": 11,
+        "y": 12
+      },
+      {
+        "furnitureIndex": 17,
+        "x": 11,
+        "y": 8
+      }
+    ],
+    "wanderPoints": [
+      {
+        "name": "lounge_general",
+        "x": 4,
+        "y": 12
+      },
+      {
+        "name": "lounge_rug",
+        "x": 4,
+        "y": 7
+      },
+      {
+        "name": "kitchen_entry",
+        "x": 2,
+        "y": 4
+      },
+      {
+        "name": "kitchen_prep",
+        "x": 4,
+        "y": 3
+      },
+      {
+        "name": "hallway_center",
+        "x": 9,
+        "y": 9
+      },
+      {
+        "name": "office_aisle_1",
+        "x": 17,
+        "y": 11
+      },
+      {
+        "name": "office_aisle_2",
+        "x": 17,
+        "y": 14
+      }
+    ]
+  }
+}

@@ -1,0 +1,648 @@
+{
+  "name": "jungle-treehouse-office",
+  "gridCols": 20,
+  "gridRows": 15,
+  "textures": [
+    {
+      "id": "jungle_floor",
+      "prompt": "straight top-down bird's eye view, rough-hewn light and medium oak wood planks, muted earthy tones, subtle gaps between planks revealing dark jungle leaves and soft glowing bioluminescent moss below, minimal grain detail",
+      "role": "floor"
+    },
+    {
+      "id": "vine_wall",
+      "prompt": "straight top-down bird's eye view, thick gnarled banyan tree trunk and branches covered in dark green twisted vines and bioluminescent moss, subtle bark texture, organic, earthy tones",
+      "role": "wall"
+    },
+    {
+      "id": "water_texture",
+      "prompt": "straight top-down bird's eye view, clear rippling water surface, dark mossy stone basin visible below, subtle reflections",
+      "role": "accent"
+    },
+    {
+      "id": "tribal_rug",
+      "prompt": "straight top-down bird's eye view, tribal pattern rug, natural dyes, earthy reds, oranges, and deep greens, hand-woven texture, rectangular",
+      "role": "accent"
+    }
+  ],
+  "furniture": [
+    {
+      "id": "stump_desk",
+      "prompt": "straight top-down bird's eye view, giant tree stump desk with monitor and keyboard, carved rustic wood, top surface polished but edges rough, small luminous green mushrooms growing subtly on the side, coconut shell cup",
+      "count": 4,
+      "w": 3,
+      "h": 3,
+      "layer": "below"
+    },
+    {
+      "id": "vine_chair",
+      "prompt": "straight top-down bird's eye view, woven chair made from dark vines and palm fronds, rustic, organic, comfortable appearance",
+      "count": 4,
+      "w": 1.5,
+      "h": 1.5,
+      "layer": "above",
+      "anchorType": "work"
+    },
+    {
+      "id": "hammock_lounge",
+      "prompt": "straight top-down bird's eye view, long, loosely woven vine hammock strung between two thick branches, colorful tribal pattern cushions in earthy red, orange, and green, slightly sagged in the middle",
+      "count": 1,
+      "w": 4,
+      "h": 2.5,
+      "layer": "below",
+      "anchorType": "rest"
+    },
+    {
+      "id": "bamboo_fountain",
+      "prompt": "straight top-down bird's eye view, bamboo water fountain gently spilling into a moss-covered stone basin, subtle ripples, lush green moss, small tropical flowers around the edge",
+      "count": 1,
+      "w": 2,
+      "h": 2,
+      "layer": "below",
+      "anchorType": "social"
+    },
+    {
+      "id": "totem_bookshelf",
+      "prompt": "straight top-down bird's eye view, tall carved wooden totem pole acting as a bookshelf, integrated shelves with ancient-looking scrolls and leather-bound books, tribal carvings, earthy wood tones",
+      "count": 1,
+      "w": 1.5,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "hollow_tree_coffee",
+      "prompt": "straight top-down bird's eye view, coffee station built into a hollowed-out tree trunk section, rustic clay pot brewing setup, small wooden cups, single firefly lantern in a glass jar on the side",
+      "count": 1,
+      "w": 2,
+      "h": 2,
+      "layer": "below",
+      "anchorType": "utility"
+    },
+    {
+      "id": "giant_monstera",
+      "prompt": "straight top-down bird's eye view, large tropical monstera plant with huge fenestrated leaves, dark green, in a rustic woven pot",
+      "count": 3,
+      "w": 1.5,
+      "h": 1.5,
+      "layer": "below"
+    },
+    {
+      "id": "hanging_ferns",
+      "prompt": "straight top-down bird's eye view, lush hanging fern plant, dark green fronds cascading down, in a primitive coconut shell planter, attached to a thick branch",
+      "count": 2,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "parrot_perch",
+      "prompt": "straight top-down bird's eye view, rustic wooden perch for a bird, colorful macaw parrot sitting on it, feathery details, vibrant red, blue, and yellow plumage",
+      "count": 1,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "firefly_jar_small",
+      "prompt": "straight top-down bird's eye view, small clear glass jar with glowing fireflies inside, emitting soft, warm light, sitting on a flat surface",
+      "count": 3,
+      "w": 0.5,
+      "h": 0.5,
+      "layer": "below"
+    },
+    {
+      "id": "mossy_rock_plant",
+      "prompt": "straight top-down bird's eye view, cluster of small exotic flowers (orchids, bird of paradise) and dense moss growing on a gnarled tree branch section or rock, vibrant colors",
+      "count": 2,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "weathered_map",
+      "prompt": "straight top-down bird's eye view, weathered treasure map pinned to a tree bark wall, ancient parchment, faint markings, slightly rolled edges",
+      "count": 1,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "biolum_fungi_wall",
+      "prompt": "straight top-down bird's eye view, section of tree bark wall covered with glowing blue and green bioluminescent fungi clusters, subtle light emission",
+      "count": 2,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "bamboo_balcony_edge",
+      "prompt": "straight top-down bird's eye view, delicate bamboo railing with interwoven vines, suggesting an open edge or rope bridge connection, organic, light brown bamboo",
+      "count": 3,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    }
+  ],
+  "layout": {
+    "floor": [
+      [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        -1
+      ],
+      [
+        -1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        -1
+      ],
+      [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    ],
+    "placements": [
+      {
+        "furnitureIndex": 0,
+        "x": 3,
+        "y": 3
+      },
+      {
+        "furnitureIndex": 1,
+        "x": 4,
+        "y": 5.5
+      },
+      {
+        "furnitureIndex": 0,
+        "x": 14,
+        "y": 3
+      },
+      {
+        "furnitureIndex": 1,
+        "x": 15,
+        "y": 5.5
+      },
+      {
+        "furnitureIndex": 0,
+        "x": 4,
+        "y": 8
+      },
+      {
+        "furnitureIndex": 1,
+        "x": 5,
+        "y": 10.5
+      },
+      {
+        "furnitureIndex": 0,
+        "x": 11,
+        "y": 8
+      },
+      {
+        "furnitureIndex": 1,
+        "x": 12,
+        "y": 10.5
+      },
+      {
+        "furnitureIndex": 2,
+        "x": 8,
+        "y": 2.5
+      },
+      {
+        "furnitureIndex": 3,
+        "x": 1,
+        "y": 11
+      },
+      {
+        "furnitureIndex": 4,
+        "x": 17,
+        "y": 7
+      },
+      {
+        "furnitureIndex": 5,
+        "x": 1,
+        "y": 2
+      },
+      {
+        "furnitureIndex": 6,
+        "x": 6,
+        "y": 6
+      },
+      {
+        "furnitureIndex": 6,
+        "x": 13,
+        "y": 7
+      },
+      {
+        "furnitureIndex": 6,
+        "x": 5,
+        "y": 12
+      },
+      {
+        "furnitureIndex": 7,
+        "x": 2,
+        "y": 6
+      },
+      {
+        "furnitureIndex": 7,
+        "x": 16,
+        "y": 11
+      },
+      {
+        "furnitureIndex": 8,
+        "x": 17,
+        "y": 2
+      },
+      {
+        "furnitureIndex": 9,
+        "x": 4.5,
+        "y": 3.5
+      },
+      {
+        "furnitureIndex": 9,
+        "x": 15.5,
+        "y": 3.5
+      },
+      {
+        "furnitureIndex": 9,
+        "x": 2.5,
+        "y": 2
+      },
+      {
+        "furnitureIndex": 10,
+        "x": 14,
+        "y": 12
+      },
+      {
+        "furnitureIndex": 10,
+        "x": 7,
+        "y": 2
+      },
+      {
+        "furnitureIndex": 11,
+        "x": 1,
+        "y": 6
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 18,
+        "y": 5
+      },
+      {
+        "furnitureIndex": 12,
+        "x": 18,
+        "y": 9
+      },
+      {
+        "furnitureIndex": 13,
+        "x": 6,
+        "y": 1
+      },
+      {
+        "furnitureIndex": 13,
+        "x": 9,
+        "y": 1
+      },
+      {
+        "furnitureIndex": 13,
+        "x": 12,
+        "y": 13
+      }
+    ],
+    "wanderPoints": [
+      {
+        "name": "wander_center_north",
+        "x": 10,
+        "y": 5
+      },
+      {
+        "name": "wander_center_south",
+        "x": 8,
+        "y": 12
+      },
+      {
+        "name": "wander_west_path",
+        "x": 3,
+        "y": 7
+      },
+      {
+        "name": "wander_east_path",
+        "x": 16,
+        "y": 7
+      }
+    ]
+  }
+}

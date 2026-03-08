@@ -1,0 +1,760 @@
+{
+  "gridCols": 20,
+  "gridRows": 16,
+  "floor": [
+    [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      2,
+      2,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  ],
+  "furniture": [
+    {
+      "id": "holographic_desk_large",
+      "x": 3,
+      "y": 2,
+      "w": 3,
+      "h": 2.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "holographic_desk_large_0_0",
+          "ox": 1,
+          "oy": 2,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "sleek_swivel_chair",
+      "x": 4,
+      "y": 4.5,
+      "w": 0.8,
+      "h": 0.8,
+      "layer": "above"
+    },
+    {
+      "id": "holographic_desk_large",
+      "x": 7,
+      "y": 2,
+      "w": 3,
+      "h": 2.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "holographic_desk_large_2_0",
+          "ox": 1,
+          "oy": 2,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "sleek_swivel_chair",
+      "x": 8,
+      "y": 4.5,
+      "w": 0.8,
+      "h": 0.8,
+      "layer": "above"
+    },
+    {
+      "id": "holographic_desk_small",
+      "x": 3,
+      "y": 8,
+      "w": 2.5,
+      "h": 2,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "holographic_desk_small_4_0",
+          "ox": 1,
+          "oy": 2,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "sleek_swivel_chair",
+      "x": 4,
+      "y": 9.5,
+      "w": 0.8,
+      "h": 0.8,
+      "layer": "above"
+    },
+    {
+      "id": "holographic_desk_small",
+      "x": 7,
+      "y": 8,
+      "w": 2.5,
+      "h": 2,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "holographic_desk_small_6_0",
+          "ox": 1,
+          "oy": 2,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "sleek_swivel_chair",
+      "x": 8,
+      "y": 9.5,
+      "w": 0.8,
+      "h": 0.8,
+      "layer": "above"
+    },
+    {
+      "id": "observation_dome_window",
+      "x": 1,
+      "y": 1,
+      "w": 6,
+      "h": 2,
+      "layer": "below"
+    },
+    {
+      "id": "submarine_docking_hatch",
+      "x": 8.5,
+      "y": 14,
+      "w": 3,
+      "h": 2,
+      "layer": "below"
+    },
+    {
+      "id": "decompression_chamber_pod",
+      "x": 17,
+      "y": 13,
+      "w": 2,
+      "h": 2.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "decompression_chamber_pod_10_0",
+          "ox": 1,
+          "oy": 2.5,
+          "type": "utility"
+        }
+      ]
+    },
+    {
+      "id": "futuristic_vending_machine",
+      "x": 1,
+      "y": 13,
+      "w": 1,
+      "h": 1,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "futuristic_vending_machine_11_0",
+          "ox": 0.5,
+          "oy": 1,
+          "type": "social"
+        }
+      ]
+    },
+    {
+      "id": "sonar_station",
+      "x": 14,
+      "y": 2,
+      "w": 2,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "sonar_station_12_0",
+          "ox": 1,
+          "oy": 2,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "pressure_gauge_panel",
+      "x": 18,
+      "y": 7,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below"
+    },
+    {
+      "id": "equipment_locker_tall",
+      "x": 1,
+      "y": 7,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below"
+    },
+    {
+      "id": "equipment_locker_tall",
+      "x": 1,
+      "y": 9,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below"
+    },
+    {
+      "id": "equipment_locker_short",
+      "x": 12,
+      "y": 14,
+      "w": 2,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "lab_bench",
+      "x": 15.5,
+      "y": 9,
+      "w": 3.5,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "lab_bench_17_0",
+          "ox": 1.75,
+          "oy": 1.5,
+          "type": "utility"
+        }
+      ]
+    },
+    {
+      "id": "water_recycling_station",
+      "x": 15,
+      "y": 1,
+      "w": 2.5,
+      "h": 1,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "water_recycling_station_18_0",
+          "ox": 1.25,
+          "oy": 1,
+          "type": "utility"
+        }
+      ]
+    },
+    {
+      "id": "memorial_plaque",
+      "x": 18,
+      "y": 10,
+      "w": 1,
+      "h": 0.5,
+      "layer": "below"
+    },
+    {
+      "id": "emergency_oxygen_tanks",
+      "x": 1,
+      "y": 4,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below"
+    },
+    {
+      "id": "robotic_arm_station",
+      "x": 17,
+      "y": 5,
+      "w": 2,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "robotic_arm_station_21_0",
+          "ox": 1,
+          "oy": 1.5,
+          "type": "utility"
+        }
+      ]
+    },
+    {
+      "id": "wall_porthole_fish",
+      "x": 10,
+      "y": 1,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "wall_porthole_fish",
+      "x": 18,
+      "y": 1,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "wall_porthole_fish",
+      "x": 1,
+      "y": 11,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "wall_kelp_barnacles",
+      "x": 18,
+      "y": 3,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "wall_kelp_barnacles",
+      "x": 18,
+      "y": 12,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "floor_lightstrip",
+      "x": 5,
+      "y": 6,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "floor_lightstrip",
+      "x": 10,
+      "y": 6,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "floor_lightstrip",
+      "x": 5,
+      "y": 11,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "floor_lightstrip",
+      "x": 10,
+      "y": 11,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "round_table",
+      "x": 12,
+      "y": 11,
+      "w": 1.5,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "round_table_31_0",
+          "ox": 0.75,
+          "oy": 1.5,
+          "type": "social"
+        }
+      ]
+    }
+  ],
+  "characters": {
+    "morty": "holographic_desk_large_0_0",
+    "dexter": "holographic_desk_large_2_0",
+    "nova": "holographic_desk_small_4_0",
+    "rio": "holographic_desk_small_6_0"
+  },
+  "wanderPoints": [
+    {
+      "name": "wander_center",
+      "x": 9,
+      "y": 7
+    },
+    {
+      "name": "wander_social",
+      "x": 13,
+      "y": 12
+    },
+    {
+      "name": "wander_utility",
+      "x": 17,
+      "y": 11
+    },
+    {
+      "name": "wander_entrance",
+      "x": 10,
+      "y": 13
+    }
+  ],
+  "spriteMap": {
+    "holographic_desk_large": "/sprites/furniture_0_holographic_desk_large.png",
+    "holographic_desk_small": "/sprites/furniture_1_holographic_desk_small.png",
+    "sleek_swivel_chair": "/sprites/furniture_2_sleek_swivel_chair.png",
+    "observation_dome_window": "/sprites/furniture_3_observation_dome_window.png",
+    "submarine_docking_hatch": "/sprites/furniture_4_submarine_docking_hatch.png",
+    "decompression_chamber_pod": "/sprites/furniture_5_decompression_chamber_pod.png",
+    "futuristic_vending_machine": "/sprites/furniture_6_futuristic_vending_machine.png",
+    "sonar_station": "/sprites/furniture_7_sonar_station.png",
+    "pressure_gauge_panel": "/sprites/furniture_8_pressure_gauge_panel.png",
+    "equipment_locker_tall": "/sprites/furniture_9_equipment_locker_tall.png",
+    "equipment_locker_short": "/sprites/furniture_10_equipment_locker_short.png",
+    "lab_bench": "/sprites/furniture_11_lab_bench.png",
+    "water_recycling_station": "/sprites/furniture_12_water_recycling_station.png",
+    "memorial_plaque": "/sprites/furniture_13_memorial_plaque.png",
+    "emergency_oxygen_tanks": "/sprites/furniture_14_emergency_oxygen_tanks.png",
+    "robotic_arm_station": "/sprites/furniture_15_robotic_arm_station.png",
+    "wall_porthole_fish": "/sprites/furniture_16_wall_porthole_fish.png",
+    "wall_kelp_barnacles": "/sprites/furniture_17_wall_kelp_barnacles.png",
+    "floor_lightstrip": "/sprites/furniture_18_floor_lightstrip.png",
+    "round_table": "/sprites/furniture_19_round_table.png"
+  },
+  "tileNames": {
+    "0": "Reinforced Steel Grating",
+    "1": "Curved Pressure Hull Wall",
+    "2": "Aquarium Accent Wall",
+    "3": "Coral Floor Accent"
+  }
+}

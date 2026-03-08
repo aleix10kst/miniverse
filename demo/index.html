@@ -62,6 +62,17 @@
       background: #e94560;
       color: #1a1a2e;
     }
+    select {
+      background: #16213e;
+      border: 1px solid #e94560;
+      color: #e94560;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      border-radius: 2px;
+    }
+    select option { background: #16213e; color: #eee; }
     #tooltip {
       position: fixed;
       background: rgba(0,0,0,0.85);
@@ -107,6 +118,7 @@
   <p class="subtitle">the anti-metaverse &mdash; a tiny pixel world for your AI agents</p>
   <div id="miniverse-container"></div>
   <div class="controls">
+    <select id="world-select"></select>
     <button onclick="triggerIntercom()">Intercom</button>
     <button onclick="cycleState('morty')">Cycle Morty</button>
     <button onclick="cycleState('dexter')">Cycle Dexter</button>
