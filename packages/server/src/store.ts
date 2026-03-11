@@ -15,7 +15,7 @@ export class AgentStore {
   private listeners: Set<(agents: AgentState[]) => void> = new Set();
   private sweepInterval: ReturnType<typeof setInterval> | null = null;
 
-  constructor(offlineTimeout = 30000) {
+  constructor(offlineTimeout = 120000) {
     this.offlineTimeout = offlineTimeout;
   }
 
