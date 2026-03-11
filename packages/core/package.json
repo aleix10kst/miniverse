@@ -1,7 +1,7 @@
 {
-  "name": "miniverse",
-  "version": "0.1.0",
-  "description": "The anti-metaverse. A tiny pixel world for your AI agents.",
+  "name": "@miniverse/core",
+  "version": "0.2.0",
+  "description": "A tiny pixel world for your AI agents.",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -36,6 +36,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iancarscern/miniverse"
+    "url": "https://github.com/ianscott313/miniverse"
   }
 }

@@ -8,7 +8,7 @@ How to create or generate consistent, high-quality pixel art assets for Minivers
 
 Miniverse uses a two-tier resolution system:
 
-- **32x32** for tiles (floors, walls, furniture, objects)
+- **32x32** for tiles (floors, walls, props, objects)
 - **64x64** for character sprites
 
 This 2:1 ratio is intentional. Characters sit on top of the world, so having more detail on them looks natural. Every character pixel aligns cleanly with the tile grid (no sub-pixel misalignment).
@@ -109,14 +109,14 @@ dark blue-gray wall (top face and side face),
 wall-floor transition tiles,
 corner pieces (inner and outer),
 carpet/rug tile (2 variations),
-floor shadow edge tiles for furniture,
+floor shadow edge tiles for props,
 consistent warm office lighting, all tiles align perfectly at edges
 ```
 
-### Office furniture
+### Office props
 
 ```
-[BASE PROMPT], furniture sprite set for a pixel RPG office, 32x32 grid aligned,
+[BASE PROMPT], props sprite set for a pixel RPG office, 32x32 grid aligned,
 top-down 3/4 view, each item on transparent background, single image layout,
 include: modern desk with computer monitor (2 tiles wide),
 office chair (occupied and empty),
@@ -129,10 +129,10 @@ desk lamp, water cooler,
 warm office lighting from top-left, consistent style across all items
 ```
 
-### Cafe furniture
+### Cafe props
 
 ```
-[BASE PROMPT], furniture sprite set for a pixel RPG cozy cafe, 32x32 grid aligned,
+[BASE PROMPT], props sprite set for a pixel RPG cozy cafe, 32x32 grid aligned,
 top-down 3/4 view, each item on transparent background, single image layout,
 include: small round cafe table,
 bar counter (3 tiles wide),
@@ -147,7 +147,7 @@ warm amber lighting, exposed brick feeling
 ### Lab / server room
 
 ```
-[BASE PROMPT], furniture sprite set for a pixel RPG server room/tech lab,
+[BASE PROMPT], props sprite set for a pixel RPG server room/tech lab,
 32x32 grid aligned, top-down 3/4 view, transparent background, single image,
 include: server rack with blinking LEDs (green and blue),
 workbench with monitor,
@@ -220,7 +220,7 @@ For smooth animation at the small sizes we render:
 ## File naming convention
 
 ```
-residents/sprites/
+citizens/sprites/
   morty_walk.png      # 4x4 grid, 64x64 frames (256x256 total)
   morty_actions.png   # 4x4 grid, 64x64 frames
   dexter_walk.png
@@ -229,7 +229,7 @@ residents/sprites/
 tilesets/
   office_floor.png    # 8x8 grid, 32x32 tiles (256x256 total)
   office_walls.png
-  office_furniture.png
+  office_props.png
 
 effects/
   particles.png       # Mixed sizes, 16x16 grid

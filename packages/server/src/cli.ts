@@ -35,20 +35,23 @@ const server = new MiniverseServer({ port });
 
 server.start().then(async (actualPort) => {
   console.log('');
-  console.log('  ╔══════════════════════════════════════╗');
-  console.log('  ║           M I N I V E R S E          ║');
-  console.log('  ╠══════════════════════════════════════╣');
-  console.log(`  ║  Pixel world:  http://localhost:${actualPort}  ║`);
-  console.log(`  ║  Heartbeat:    POST /api/heartbeat   ║`);
-  console.log(`  ║  Agents:       GET  /api/agents      ║`);
-  console.log('  ╚══════════════════════════════════════╝');
-  console.log('');
-  console.log('  Send a heartbeat to bring an agent to life:');
-  console.log('');
-  console.log(`  curl -X POST http://localhost:${actualPort}/api/heartbeat \\`);
-  console.log('    -H "Content-Type: application/json" \\');
-  console.log(`    -d '{"agent":"claude","state":"working","task":"Hello world"}'`);
-  console.log('');
+  const url = `http://localhost:${actualPort}`;
+
+  if (noBrowser) {
+    // Quiet mode — running alongside Vite via concurrently
+    console.log(`  Miniverse server ready on port ${actualPort}`);
+    console.log('');
+  } else {
+    // Standalone mode — show the full banner
+    const line = `  Server:  ${url}`;
+    const pad = 38 - line.length;
+    console.log('  ╔══════════════════════════════════════╗');
+    console.log('  ║           M I N I V E R S E          ║');
+    console.log('  ╠══════════════════════════════════════╣');
+    console.log(`  ║${line}${' '.repeat(pad)}║`);
+    console.log('  ╚══════════════════════════════════════╝');
+    console.log('');
+  }
 
   if (!noBrowser) {
     // Open browser

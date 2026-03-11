@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Auto-detect and extract individual furniture pieces from the raw image.
+ * Auto-detect and extract individual prop pieces from the raw image.
  * 1. Remove pure white background
  * 2. Find connected regions of non-transparent pixels
  * 3. Extract each as a separate PNG
@@ -13,12 +13,12 @@ import { mkdirSync } from 'fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RAW = path.join(__dirname, '..', 'assets', 'raw');
-const OUT = path.join(__dirname, '..', 'assets', 'processed', 'furniture');
+const OUT = path.join(__dirname, '..', 'assets', 'processed', 'props');
 
 async function main() {
   mkdirSync(OUT, { recursive: true });
 
-  const inputPath = path.join(RAW, 'office-furniture.png');
+  const inputPath = path.join(RAW, 'office-props.png');
   const { data, info } = await sharp(inputPath)
     .ensureAlpha()
     .raw()
@@ -134,27 +134,45 @@ async function main() {
     return a.minX - b.minX;
   });
 
-  console.log(`Found ${significant.length} furniture pieces:`);
+  console.log(`Found ${significant.length} prop pieces:`);
 
   // Save the cleaned image as atlas too
   const cleanBuf = await sharp(pixels, {
     raw: { width: w, height: h, channels: 4 },
   }).png().toBuffer();
 
-  await sharp(cleanBuf).toFile(path.join(OUT, '..', 'furniture_atlas.png'));
+  await sharp(cleanBuf).toFile(path.join(OUT, '..', 'prop_atlas.png'));
 
-  // Extract each component
+  // Extract and compress each component
   for (let i = 0; i < significant.length; i++) {
     const c = significant[i];
     const cw = c.maxX - c.minX + 1;
     const ch = c.maxY - c.minY + 1;
 
-    const piece = await sharp(cleanBuf)
+    let pieceBuf = await sharp(cleanBuf)
       .extract({ left: c.minX, top: c.minY, width: cw, height: ch })
       .png()
-      .toFile(path.join(OUT, `piece_${i}.png`));
+      .toBuffer();
 
-    console.log(`  piece_${i}: ${cw}x${ch} at (${c.minX},${c.minY})`);
+    // Compress: resize longest edge to 128px max, nearest-neighbor
+    const maxSize = 128;
+    if (cw > maxSize || ch > maxSize) {
+      const scale = maxSize / Math.max(cw, ch);
+      const nw = Math.max(1, Math.round(cw * scale));
+      const nh = Math.max(1, Math.round(ch * scale));
+      pieceBuf = await sharp(pieceBuf)
+        .resize(nw, nh, { kernel: sharp.kernel.nearest })
+        .png({ compressionLevel: 9, adaptiveFiltering: true })
+        .toBuffer();
+      console.log(`  piece_${i}: ${cw}x${ch} → ${nw}x${nh} at (${c.minX},${c.minY})`);
+    } else {
+      pieceBuf = await sharp(pieceBuf)
+        .png({ compressionLevel: 9, adaptiveFiltering: true })
+        .toBuffer();
+      console.log(`  piece_${i}: ${cw}x${ch} at (${c.minX},${c.minY})`);
+    }
+
+    writeFileSync(path.join(OUT, `piece_${i}.png`), pieceBuf);
   }
 
   // Also write a JSON manifest with piece info
@@ -167,7 +185,7 @@ async function main() {
   const { writeFileSync } = await import('fs');
   writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2));
 
-  console.log('\nDone! Check assets/processed/furniture/ for individual pieces');
+  console.log('\nDone! Check assets/processed/props/ for individual pieces');
 }
 
 main().catch(console.error);

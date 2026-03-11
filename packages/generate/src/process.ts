@@ -1,9 +1,9 @@
 /**
  * Sprite sheet processing — clean up AI-generated images into
- * properly aligned sprite sheets and individual furniture pieces.
+ * properly aligned sprite sheets and individual prop pieces.
  *
  * Character sprites: 256x256 (4x4 grid of 64x64 frames)
- * Furniture: individual PNGs per piece
+ * Props: individual PNGs per piece
  */
 
 import sharp from 'sharp';
@@ -127,11 +127,11 @@ export async function processCharacterSheet(input: Buffer, options?: { scaleFrom
 }
 
 /**
- * Extract individual furniture pieces from a raw image.
+ * Extract individual prop pieces from a raw image.
  * Uses flood fill bg removal + connected component detection.
  * Returns array of { buffer, width, height } for each piece.
  */
-export async function processFurnitureSheet(input: Buffer): Promise<{ buffer: Buffer; width: number; height: number }[]> {
+export async function processPropsSheet(input: Buffer): Promise<{ buffer: Buffer; width: number; height: number }[]> {
   const cleaned = await floodFillRemoveBg(input);
   const { data, info } = await sharp(cleaned)
     .ensureAlpha()
@@ -261,6 +261,31 @@ export async function assembleTileset(
   })
     .composite(composites)
     .png()
+    .toBuffer();
+}
+
+/**
+ * Compress a sprite PNG for web delivery.
+ * Resizes so the longest edge is at most `maxSize` pixels (default 128),
+ * using nearest-neighbor to preserve pixel art crispness.
+ * Also applies PNG compression (level 9, adaptive filtering).
+ */
+export async function compressSprite(input: Buffer, maxSize = 128): Promise<Buffer> {
+  const meta = await sharp(input).metadata();
+  const w = meta.width!, h = meta.height!;
+
+  // Only downscale if larger than maxSize
+  if (w <= maxSize && h <= maxSize) {
+    return sharp(input).png({ compressionLevel: 9, adaptiveFiltering: true }).toBuffer();
+  }
+
+  const scale = maxSize / Math.max(w, h);
+  const newW = Math.max(1, Math.round(w * scale));
+  const newH = Math.max(1, Math.round(h * scale));
+
+  return sharp(input)
+    .resize(newW, newH, { kernel: sharp.kernel.nearest })
+    .png({ compressionLevel: 9, adaptiveFiltering: true })
     .toBuffer();
 }
 

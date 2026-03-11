@@ -1,6 +1,6 @@
 # Miniverse
 
-**The anti-metaverse. A tiny pixel world for your AI agents.**
+**A tiny pixel world for your AI agents.**
 
 Your agents are doing real work. Give them a place to live.
 
@@ -41,7 +41,7 @@ const mv = new Miniverse({
     url: 'http://localhost:8080/api/agents/status',
     interval: 3000,
   },
-  residents: [
+  citizens: [
     { agentId: 'morty', name: 'Morty', sprite: 'morty', position: 'desk_1' },
     { agentId: 'dexter', name: 'Dexter', sprite: 'dexter', position: 'desk_2' },
   ],
@@ -90,9 +90,9 @@ Miniverse connects to your agent system via a simple REST or WebSocket endpoint:
 // Trigger the intercom (e.g., from voice input)
 mv.triggerEvent('intercom', { message: 'Hey team, status update?' });
 
-// Listen for clicks on residents
-mv.on('resident:click', (resident) => {
-  console.log(`Clicked on ${resident.name}, currently: ${resident.state}`);
+// Listen for clicks on citizens
+mv.on('citizen:click', (citizen) => {
+  console.log(`Clicked on ${citizen.name}, currently: ${citizen.state}`);
 });
 ```
 
@@ -114,7 +114,7 @@ miniverse/
         renderer/   # Canvas rendering, camera, layers
         sprites/    # Sprite sheet loading, animation
         scene/      # Tile map, pathfinding
-        residents/  # Character state machine, movement
+        citizens/   # Character state machine, movement
         objects/    # Interactive objects (intercom, whiteboard)
         effects/    # Particles, speech bubbles
         signal/     # Status endpoint connector
@@ -132,7 +132,7 @@ A world is a directory with tilesets, scene layouts, and animation configs. See 
 Contributions welcome! Some ideas:
 
 - **New worlds**: fantasy tavern, space station, underwater lab, pixel garden
-- **New resident sprites**: different art styles, characters, occupations
+- **New citizen sprites**: different art styles, characters, occupations
 - **New interactive objects**: printers, phones, pets, vehicles
 - **New signal adapters**: connectors for specific agent frameworks
 - **Framework wrappers**: React, Vue, Svelte components

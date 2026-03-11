@@ -1,6 +1,6 @@
 # miniverse-generate
 
-AI sprite generator for Miniverse. Create character and furniture sprites from text prompts or reference images.
+AI sprite generator for Miniverse. Create character and props sprites from text prompts or reference images.
 
 Takes a simple description like "young female, pink hair, yellow cardigan" and outputs a clean, game-ready 256x256 sprite sheet with 16 animation frames.
 
@@ -16,7 +16,7 @@ prompt enrichment → fal.ai generate → background removal → sprite processi
 
 ### 1. Prompt enrichment (`src/prompt.ts`)
 
-You provide a short character or furniture description. The pipeline prepends the full Miniverse base style — lighting, shading, outlining, palette, grid layout — so every generated asset is visually consistent.
+You provide a short character or props description. The pipeline prepends the full Miniverse base style — lighting, shading, outlining, palette, grid layout — so every generated asset is visually consistent.
 
 ```
 Input:  "young female, pink hair, yellow cardigan"
@@ -37,7 +37,7 @@ Output: "32-bit pixel art, top-down 3/4 view RPG style, consistent top-left
 Three prompt templates:
 - **walk** — 4-direction walk cycle (default)
 - **action** — sitting, sleeping, talking, idle
-- **furniture** — office/cafe furniture set
+- **props** — office/cafe props set
 
 ### 2. Image generation (`src/fal.ts`)
 
@@ -69,10 +69,10 @@ AI generators don't output clean grids. Characters are irregularly spaced, not p
 5. **Scale** — resize each frame to fill 64px height using nearest-neighbor interpolation (preserves pixel art crispness). Center horizontally within 64×64.
 6. **Assemble** — composite all 16 frames onto a clean 256×256 transparent PNG.
 
-**For furniture:**
+**For props:**
 
 1. **Flood fill background removal** — same edge-based approach.
-2. **Connected component detection** — scan for groups of adjacent non-transparent pixels. Each connected group is one furniture piece.
+2. **Connected component detection** — scan for groups of adjacent non-transparent pixels. Each connected group is one props piece.
 3. **Filter** — discard components under 500px area (noise/artifacts).
 4. **Sort** — order by position (top-to-bottom, left-to-right).
 5. **Extract** — save each piece as a separate PNG.
@@ -103,9 +103,9 @@ FAL_KEY=xxx npx miniverse-generate character \
   --type action \
   --output sprites/morty_actions.png
 
-# Generate furniture
-FAL_KEY=xxx npx miniverse-generate furniture \
-  --prompt "cozy cafe furniture, tables, espresso machine, bar stools, pastry case" \
+# Generate props
+FAL_KEY=xxx npx miniverse-generate props \
+  --prompt "cozy cafe props, tables, espresso machine, bar stools, pastry case" \
   --output sprites/cafe/
 
 # Process an existing raw image (no API key needed)
@@ -125,7 +125,7 @@ npx miniverse-generate process \
 ### Programmatic
 
 ```typescript
-import { generateCharacter, generateFurniture } from 'miniverse-generate';
+import { generateCharacter, generateProps } from 'miniverse-generate';
 
 // Generate a character
 const { buffer } = await generateCharacter({
@@ -141,9 +141,9 @@ const { buffer: editBuffer } = await generateCharacter({
   output: 'sprites/nova_actions.png',
 });
 
-// Generate furniture
-const { pieces } = await generateFurniture({
-  prompt: 'modern office furniture set',
+// Generate props
+const { pieces } = await generateProps({
+  prompt: 'modern office props set',
   output: 'sprites/office/',
 });
 // pieces[0].buffer, pieces[0].width, pieces[0].height, etc.
@@ -154,7 +154,7 @@ const { pieces } = await generateFurniture({
 If you already have raw images (e.g. from a manual fal.ai session), use the processing functions directly:
 
 ```typescript
-import { processCharacterSheet, processFurnitureSheet } from 'miniverse-generate';
+import { processCharacterSheet, processPropsSheet } from 'miniverse-generate';
 import sharp from 'sharp';
 
 // Process a raw character sprite sheet
@@ -162,9 +162,9 @@ const raw = await sharp('raw_sprite.png').png().toBuffer();
 const clean = await processCharacterSheet(raw);
 // clean is a 256x256 Buffer with 4x4 grid of 64x64 frames
 
-// Process raw furniture image
-const rawFurniture = await sharp('raw_furniture.png').png().toBuffer();
-const pieces = await processFurnitureSheet(rawFurniture);
+// Process raw props image
+const rawProps = await sharp('raw_props.png').png().toBuffer();
+const pieces = await processPropsSheet(rawProps);
 // pieces is an array of { buffer, width, height }
 ```
 
@@ -176,7 +176,7 @@ const pieces = await processFurnitureSheet(rawFurniture);
 |------|--------|-----------|
 | Character walk sheet | Single PNG | 256×256 (4×4 grid, 64×64 frames) |
 | Character action sheet | Single PNG | 256×256 (4×4 grid, 64×64 frames) |
-| Furniture set | Individual PNGs per piece | Varies per piece |
+| Props set | Individual PNGs per piece | Varies per piece |
 
 ### Character sheet layout
 

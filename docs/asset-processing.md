@@ -1,6 +1,6 @@
 # Asset Processing
 
-How to go from AI-generated images to game-ready sprites and furniture.
+How to go from AI-generated images to game-ready sprites and props.
 
 ---
 
@@ -54,17 +54,17 @@ node scripts/process-sprites.mjs
 
 ---
 
-## Furniture / Objects
+## Props / Objects
 
-**Script:** `scripts/process-furniture.mjs`
+**Script:** `scripts/process-props.mjs`
 
-**Problem:** AI generators output furniture pieces scattered on a white background at irregular positions. Items are different sizes and close together, making manual coordinate-based slicing unreliable.
+**Problem:** AI generators output prop pieces scattered on a white background at irregular positions. Items are different sizes and close together, making manual coordinate-based slicing unreliable.
 
 **Solution: flood fill + connected component detection.**
 
 1. **Flood fill from edges** — BFS from all border pixels inward, marking white pixels connected to the edge as "background." This removes only the actual background while preserving white pixels inside objects (like the whiteboard surface).
 
-2. **Connected component analysis** — scan for groups of adjacent non-transparent pixels. Each connected group is one furniture piece. Extract its bounding box automatically.
+2. **Connected component analysis** — scan for groups of adjacent non-transparent pixels. Each connected group is one prop piece. Extract its bounding box automatically.
 
 3. **Filter noise** — discard components smaller than 500px area (stray pixels, artifacts).
 
@@ -77,19 +77,19 @@ node scripts/process-sprites.mjs
 **Usage:**
 
 ```bash
-# Drop raw furniture image in assets/raw/
-cp ~/Downloads/office-furniture.png assets/raw/
+# Drop raw prop image in assets/raw/
+cp ~/Downloads/office-props.png assets/raw/
 
 # Process it
-node scripts/process-furniture.mjs
+node scripts/process-props.mjs
 
 # Output:
-#   assets/processed/furniture/piece_0.png  (desk)
-#   assets/processed/furniture/piece_1.png  (chair)
-#   assets/processed/furniture/piece_2.png  (chair side)
+#   assets/processed/props/piece_0.png  (desk)
+#   assets/processed/props/piece_1.png  (chair)
+#   assets/processed/props/piece_2.png  (chair side)
 #   ...
-#   assets/processed/furniture/manifest.json
-#   assets/processed/furniture_atlas.png    (full image, transparent bg)
+#   assets/processed/props/manifest.json
+#   assets/processed/prop_atlas.png    (full image, transparent bg)
 ```
 
 **manifest.json** contains the original position and size of each piece in the source image, useful if you want to use the atlas approach instead of individual files.
@@ -106,9 +106,9 @@ FAL_KEY=xxx npx miniverse-generate character \
   --prompt "young female, pink hair, yellow cardigan" \
   --output sprites/nova_walk.png
 
-# Furniture set
-FAL_KEY=xxx npx miniverse-generate furniture \
-  --prompt "cozy cafe furniture" \
+# Prop set
+FAL_KEY=xxx npx miniverse-generate props \
+  --prompt "cozy cafe props" \
   --output sprites/cafe/
 
 # Process an existing raw image (no generation, just processing)
@@ -132,7 +132,7 @@ npx miniverse-generate process \
 |-------|-----------|------------|
 | Character walk/action | 64x64 | 256x256 (4x4) |
 | Tiles (floor, walls) | 32x32 | varies |
-| Furniture | varies per piece | individual PNGs |
+| Props | varies per piece | individual PNGs |
 | Effects/particles | 16x16 | varies |
 
 Characters are 2x tile resolution (64 vs 32) so they have more detail and stand taller than a single tile — standard for top-down RPGs.

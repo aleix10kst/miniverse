@@ -2,7 +2,7 @@
 
 ## Vision
 
-The anti-metaverse. A tiny pixel world for your AI agents. Instead of monitoring agents through logs or dashboards, give them a living pixel art world. Tamagotchi for AI agents.
+A tiny pixel world for your AI agents. Instead of monitoring agents through logs or dashboards, give them a living pixel art world. Tamagotchi for AI agents.
 
 ## Distribution -- Three Tiers, Same Core
 
@@ -124,7 +124,7 @@ curl -s -X POST http://localhost:4321/api/heartbeat \
 - Pure HTML5 Canvas rendering with `image-rendering: pixelated`
 - Sprite sheet system with named animations per state
 - Tile-based rooms with A* pathfinding on walkable grid
-- Layered rendering: floor -> furniture -> characters (y-sorted) -> particles -> UI
+- Layered rendering: floor -> props -> characters (y-sorted) -> particles -> UI
 - State machine per resident: maps agent states to animations and behaviors
 - Interactive objects: intercom (shakes on input, all agents face it), whiteboard, monitors (glow when working), coffee machine
 - Particle effects: Zzz for sleeping, thought bubbles, exclamation marks for errors
@@ -148,7 +148,7 @@ Each world is a self-contained directory with tilesets, scene layouts, animation
 - [x] pixel-office world with procedural placeholder art
 - [x] Mock signal connector for demo
 - [x] Interactive objects, particles, speech bubbles
-- [x] Click-to-inspect residents
+- [x] Click-to-inspect citizens
 
 ### v0.2 -- The Server
 

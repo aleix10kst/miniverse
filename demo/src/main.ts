@@ -1,7 +1,5 @@
-import { Miniverse } from 'miniverse';
-import type { AgentState, AgentStatus, SceneConfig, SpriteSheetConfig } from 'miniverse';
-import { FurnitureSystem } from './furniture';
-import { Editor } from './editor';
+import { Miniverse, PropSystem, Editor, createStandardSpriteConfig } from '@miniverse/core';
+import type { AgentState, AgentStatus, SceneConfig, SpriteSheetConfig, CitizenConfig } from '@miniverse/core';
 
 const STATES: AgentState[] = ['working', 'idle', 'thinking', 'sleeping', 'speaking', 'error', 'waiting'];
 const TASKS = [
@@ -44,53 +42,37 @@ function worldBasePath(worldId: string): string {
   return `/worlds/${worldId}`;
 }
 
-// Build the scene config
-function buildSceneConfig(cols = 16, rows = 12, savedFloor?: number[][], basePath = ''): SceneConfig {
-
-  const floor: number[][] = [];
+function buildSceneConfig(
+  cols: number,
+  rows: number,
+  floor: string[][] | undefined,
+  tiles: Record<string, string> | undefined,
+  basePath: string,
+): SceneConfig {
+  const safeFloor: string[][] = floor ?? Array.from({ length: rows }, () => Array(cols).fill(''));
   const walkable: boolean[][] = [];
-
   for (let r = 0; r < rows; r++) {
-    floor[r] = [];
     walkable[r] = [];
     for (let c = 0; c < cols; c++) {
-      // Use saved floor data if available, otherwise default walls on edges
-      if (savedFloor && savedFloor[r] && savedFloor[r][c] !== undefined) {
-        floor[r][c] = savedFloor[r][c];
-      } else if (r === 0 || r === rows - 1 || c === 0 || c === cols - 1) {
-        floor[r][c] = 1;
-      } else {
-        floor[r][c] = 0;
-      }
-      // Non-walkable: deadspace (<0) or wall texture (1)
-      walkable[r][c] = floor[r][c] >= 0 && floor[r][c] !== 1;
+      walkable[r][c] = (safeFloor[r]?.[c] ?? '') !== '';
     }
   }
 
-  // Furniture blocked tiles are applied dynamically via updateWalkability()
+  const resolvedTiles: Record<string, string> = { ...(tiles ?? {}) };
+  for (const [key, src] of Object.entries(resolvedTiles)) {
+    if (/^(blob:|data:|https?:\/\/)/.test(src)) continue;
+    const clean = src.startsWith('/') ? src.slice(1) : src;
+    resolvedTiles[key] = `${basePath}/${clean}`;
+  }
 
   return {
     name: 'main',
     tileWidth: 32,
     tileHeight: 32,
-    layers: [floor],
+    layers: [safeFloor],
     walkable,
-    locations: {
-      desk_1: { x: 3, y: 3, label: 'Desk 1' },
-      desk_2: { x: 8, y: 3, label: 'Desk 2' },
-      coffee_machine: { x: 13, y: 2, label: 'Coffee' },
-      couch: { x: 12, y: 7, label: 'Couch' },
-      whiteboard: { x: 8, y: 1, label: 'Board' },
-      intercom: { x: 1, y: 1, label: 'Intercom' },
-      center: { x: 7, y: 6, label: 'Center' },
-      lounge: { x: 5, y: 8, label: 'Lounge' },
-    },
-    tilesets: [{
-      image: `${basePath}/tilesets/tileset.png`,
-      tileWidth: 32,
-      tileHeight: 32,
-      columns: 16,
-    }],
+    locations: {},
+    tiles: resolvedTiles,
   };
 }
 
@@ -117,62 +99,62 @@ async function main() {
     window.location.search = params.toString();
   });
 
-  // Build sprite config for each character: walk sheet + action sheet
-  function charSprites(name: string): SpriteSheetConfig {
-    return {
-      sheets: {
-        walk: `/sprites/${name}_walk.png`,
-        actions: `/sprites/${name}_actions.png`,
-      },
-      animations: {
-        // Walk sheet (rows: down, up, left, right)
-        idle_down: { sheet: 'walk', row: 0, frames: 2, speed: 0.5 },
-        idle_up: { sheet: 'walk', row: 1, frames: 2, speed: 0.5 },
-        walk_down: { sheet: 'walk', row: 0, frames: 4, speed: 0.15 },
-        walk_up: { sheet: 'walk', row: 1, frames: 4, speed: 0.15 },
-        walk_left: { sheet: 'walk', row: 2, frames: 4, speed: 0.15 },
-        walk_right: { sheet: 'walk', row: 3, frames: 4, speed: 0.15 },
-        // Action sheet (rows: working, sleeping, talking, idle)
-        working: { sheet: 'actions', row: 0, frames: 4, speed: 0.3 },
-        sleeping: { sheet: 'actions', row: 1, frames: 2, speed: 0.8 },
-        talking: { sheet: 'actions', row: 2, frames: 4, speed: 0.15 },
-      },
-      frameWidth: 64,
-      frameHeight: 64,
-    };
-  }
+  // Load world data
+  const worldData = await fetch(`${basePath}/world.json`).then(r => r.json()).catch(() => null);
 
-  const spriteSheets: Record<string, SpriteSheetConfig> = {
-    morty: charSprites('morty'),
-    dexter: charSprites('dexter'),
-    nova: charSprites('nova'),
-    rio: charSprites('rio'),
-  };
-
-  // Load scene data (furniture + characters + wander points + grid size)
-  const sceneData = await fetch(`${basePath}/scene.json`).then(r => r.json()).catch(() => null);
-
-  const gridCols = sceneData?.gridCols ?? 16;
-  const gridRows = sceneData?.gridRows ?? 12;
-  const sceneConfig = buildSceneConfig(gridCols, gridRows, sceneData?.floor, basePath);
+  const gridCols = worldData?.gridCols ?? 16;
+  const gridRows = worldData?.gridRows ?? 12;
+  const sceneConfig = buildSceneConfig(
+    gridCols, gridRows,
+    worldData?.floor,
+    worldData?.tiles,
+    basePath,
+  );
 
   const tileSize = 32;
 
+  // Build citizens from world.json if available, else fall back to hardcoded demo citizens
+  const citizenDefs: any[] = worldData?.citizens ?? worldData?.characterDefs ?? [];
+  let citizens: CitizenConfig[];
+  let spriteSheets: Record<string, SpriteSheetConfig>;
+
+  if (citizenDefs.length > 0) {
+    // Data-driven: citizens come from world.json
+    citizens = citizenDefs.map((def: any) => ({
+      agentId: def.agentId ?? def.id,
+      name: def.name,
+      sprite: def.sprite,
+      position: def.position,
+      npc: def.type === 'npc',
+    }));
+    spriteSheets = {};
+    for (const def of citizenDefs) {
+      spriteSheets[def.sprite] = createStandardSpriteConfig(def.sprite);
+    }
+  } else {
+    // Fallback: hardcoded demo citizens
+    citizens = [
+      { agentId: 'morty', name: 'Morty', sprite: 'morty', position: 'desk_0_0' },
+      { agentId: 'dexter', name: 'Dexter', sprite: 'dexter', position: 'desk_1_0' },
+      { agentId: 'nova', name: 'Nova', sprite: 'nova', position: 'whiteboard_2_0' },
+      { agentId: 'rio', name: 'Rio', sprite: 'rio', position: 'couch_5_0' },
+    ];
+    spriteSheets = {};
+    for (const r of citizens) {
+      spriteSheets[r.sprite] = createStandardSpriteConfig(r.sprite);
+    }
+  }
+
   const mv = new Miniverse({
     container,
-    world: 'pixel-office',
+    world: worldId,
     scene: 'main',
     signal: {
       type: 'mock',
       mockData: mockAgentData,
       interval: 2000,
     },
-    residents: [
-      { agentId: 'morty', name: 'Morty', sprite: 'morty', position: sceneData?.characters?.morty ?? 'desk_0_0' },
-      { agentId: 'dexter', name: 'Dexter', sprite: 'dexter', position: sceneData?.characters?.dexter ?? 'desk_1_0' },
-      { agentId: 'nova', name: 'Nova', sprite: 'nova', position: sceneData?.characters?.nova ?? 'whiteboard_2_0' },
-      { agentId: 'rio', name: 'Rio', sprite: 'rio', position: sceneData?.characters?.rio ?? 'couch_5_0' },
-    ],
+    citizens,
     scale: 2,
     width: gridCols * tileSize,
     height: gridRows * tileSize,
@@ -182,14 +164,12 @@ async function main() {
   });
 
   // Click handler for tooltip
-  mv.on('resident:click', (data: unknown) => {
+  mv.on('citizen:click', (data: unknown) => {
     const d = data as { name: string; state: string; task: string | null; energy: number };
     tooltip.style.display = 'block';
     tooltip.querySelector('.name')!.textContent = d.name;
     tooltip.querySelector('.state')!.textContent = `State: ${d.state}`;
     tooltip.querySelector('.task')!.textContent = d.task ? `Task: ${d.task}` : 'No active task';
-
-    // Position near mouse, hide after 3s
     setTimeout(() => { tooltip.style.display = 'none'; }, 3000);
   });
 
@@ -208,47 +188,58 @@ async function main() {
       .join('');
   }, 500);
 
-  // --- Furniture system (load before start so anchors exist for initial placement) ---
-  const furniture = new FurnitureSystem(32, 2);
+  // --- Props system ---
+  const props = new PropSystem(32, 2);
 
-  // Load furniture sprites from scene data (dynamic) — prefix with world basePath
-  const rawSpriteMap: Record<string, string> = sceneData?.spriteMap ?? {};
+  const propImages: Record<string, string> = worldData?.propImages ?? worldData?.spriteMap ?? {};
   await Promise.all(
-    Object.entries(rawSpriteMap).map(([id, src]) => furniture.loadSprite(id, `${basePath}${src}`)),
+    Object.entries(propImages).map(([id, src]) => {
+      const clean = (src as string).startsWith('/') ? (src as string).slice(1) : src as string;
+      return props.loadSprite(id, `${basePath}/${clean}`);
+    }),
   );
 
-  furniture.setLayout(sceneData?.furniture ?? []);
-  if (sceneData?.wanderPoints) {
-    furniture.setWanderPoints(sceneData.wanderPoints);
+  props.setLayout(worldData?.props ?? []);
+  if (worldData?.wanderPoints) {
+    props.setWanderPoints(worldData.wanderPoints);
   }
 
-  // Let furniture system check deadspace tiles
-  furniture.setDeadspaceCheck((col, row) => {
+  props.setDeadspaceCheck((col, row) => {
     const floor = mv.getFloorLayer();
-    return floor?.[row]?.[col] < 0;
+    return floor?.[row]?.[col] === '';
   });
 
-  // Set typed locations + walkability BEFORE start so residents can find their anchors
-  const syncFurniture = () => {
-    mv.setTypedLocations(furniture.getLocations());
-    mv.updateWalkability(furniture.getBlockedTiles());
+  const syncProps = () => {
+    mv.setTypedLocations(props.getLocations());
+    mv.updateWalkability(props.getBlockedTiles());
   };
-  syncFurniture();
-  furniture.onSave(syncFurniture);
+  syncProps();
+  props.onSave(syncProps);
 
   await mv.start();
 
-  // Render layers
-  mv.addLayer({ order: 5, render: (ctx) => furniture.renderBelow(ctx) });
-  mv.addLayer({ order: 15, render: (ctx) => furniture.renderAbove(ctx) });
+  mv.addLayer({ order: 5, render: (ctx) => props.renderBelow(ctx) });
+  mv.addLayer({ order: 15, render: (ctx) => props.renderAbove(ctx) });
 
-  // --- Editor (tabbed: furniture | characters | behavior) ---
-  const editor = new Editor(mv.getCanvas(), furniture, mv);
-  if (sceneData?.tileNames) editor.setTileNames(sceneData.tileNames);
-  editor.loadCharacterAssignments(sceneData?.characters);
+  // --- Editor ---
+  const editor = new Editor({
+    canvas: mv.getCanvas(),
+    props,
+    miniverse: mv,
+    worldId,
+    onSave: async (scene) => {
+      const res = await fetch('/api/save-world', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...scene, worldId }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+    },
+  });
+  editor.loadCitizenDefs(worldData?.citizens ?? worldData?.characterDefs);
   mv.addLayer({ order: 50, render: (ctx) => {
     editor.renderOverlay(ctx);
-    if (editor.isActive()) syncFurniture();
+    if (editor.isActive()) syncProps();
   } });
 
   // Expose controls to window

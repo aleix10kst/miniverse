@@ -24,7 +24,7 @@
       "role": "accent"
     }
   ],
-  "furniture": [
+  "props": [
     {
       "id": "desk_wood_modern",
       "prompt": "Modern light wood large desk with minimalist metal legs, straight top-down bird's eye view",
@@ -403,147 +403,147 @@
     ],
     "placements": [
       {
-        "furnitureIndex": 0,
+        "propsIndex": 0,
         "x": 2,
         "y": 2
       },
       {
-        "furnitureIndex": 1,
+        "propsIndex": 1,
         "x": 3,
         "y": 3.5
       },
       {
-        "furnitureIndex": 0,
+        "propsIndex": 0,
         "x": 7,
         "y": 2
       },
       {
-        "furnitureIndex": 1,
+        "propsIndex": 1,
         "x": 8,
         "y": 3.5
       },
       {
-        "furnitureIndex": 0,
+        "propsIndex": 0,
         "x": 2,
         "y": 6.5
       },
       {
-        "furnitureIndex": 1,
+        "propsIndex": 1,
         "x": 3,
         "y": 8
       },
       {
-        "furnitureIndex": 0,
+        "propsIndex": 0,
         "x": 7,
         "y": 6.5
       },
       {
-        "furnitureIndex": 1,
+        "propsIndex": 1,
         "x": 8,
         "y": 8
       },
       {
-        "furnitureIndex": 2,
+        "propsIndex": 2,
         "x": 1.5,
         "y": 1.5
       },
       {
-        "furnitureIndex": 2,
+        "propsIndex": 2,
         "x": 6.5,
         "y": 1.5
       },
       {
-        "furnitureIndex": 2,
+        "propsIndex": 2,
         "x": 1.5,
         "y": 9
       },
       {
-        "furnitureIndex": 2,
+        "propsIndex": 2,
         "x": 6.5,
         "y": 9
       },
       {
-        "furnitureIndex": 3,
+        "propsIndex": 3,
         "x": 2.5,
         "y": 2.5
       },
       {
-        "furnitureIndex": 3,
+        "propsIndex": 3,
         "x": 7.5,
         "y": 2.5
       },
       {
-        "furnitureIndex": 3,
+        "propsIndex": 3,
         "x": 2.5,
         "y": 7
       },
       {
-        "furnitureIndex": 3,
+        "propsIndex": 3,
         "x": 7.5,
         "y": 7
       },
       {
-        "furnitureIndex": 4,
+        "propsIndex": 4,
         "x": 12.5,
         "y": 1.5
       },
       {
-        "furnitureIndex": 5,
+        "propsIndex": 5,
         "x": 13,
         "y": 2
       },
       {
-        "furnitureIndex": 6,
+        "propsIndex": 6,
         "x": 13.5,
         "y": 9.5
       },
       {
-        "furnitureIndex": 6,
+        "propsIndex": 6,
         "x": 11.5,
         "y": 10.5
       },
       {
-        "furnitureIndex": 6,
+        "propsIndex": 6,
         "x": 15.5,
         "y": 10.5
       },
       {
-        "furnitureIndex": 7,
+        "propsIndex": 7,
         "x": 13.5,
         "y": 8
       },
       {
-        "furnitureIndex": 8,
+        "propsIndex": 8,
         "x": 0,
         "y": 5,
         "isWallDecor": true
       },
       {
-        "furnitureIndex": 9,
+        "propsIndex": 9,
         "x": 3,
         "y": 0,
         "isWallDecor": true
       },
       {
-        "furnitureIndex": 9,
+        "propsIndex": 9,
         "x": 7,
         "y": 0,
         "isWallDecor": true
       },
       {
-        "furnitureIndex": 9,
+        "propsIndex": 9,
         "x": 11,
         "y": 0,
         "isWallDecor": true
       },
       {
-        "furnitureIndex": 10,
+        "propsIndex": 10,
         "x": 14,
         "y": 1,
         "isWallDecor": true
       },
       {
-        "furnitureIndex": 10,
+        "propsIndex": 10,
         "x": 14.5,
         "y": 4,
         "isWallDecor": true

@@ -1,0 +1,432 @@
+{
+  "gridCols": 16,
+  "gridRows": 12,
+  "floor": [
+    [
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall"
+    ],
+    [
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall",
+      "vine_wall"
+    ],
+    [
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor"
+    ],
+    [
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor"
+    ],
+    [
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor"
+    ],
+    [
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor"
+    ],
+    [
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor"
+    ],
+    [
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor"
+    ],
+    [
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor"
+    ],
+    [
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor"
+    ],
+    [
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor"
+    ],
+    [
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor",
+      "jungle_floor"
+    ]
+  ],
+  "props": [
+    {
+      "id": "stump_desk",
+      "x": 8.75,
+      "y": 3.75,
+      "w": 3,
+      "h": 3,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "stump_desk_2_0",
+          "ox": 0.75,
+          "oy": 2.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "hammock_lounge",
+      "x": 0,
+      "y": 2.25,
+      "w": 4,
+      "h": 2.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "hammock_lounge_8_0",
+          "ox": 2,
+          "oy": 2.5,
+          "type": "rest"
+        }
+      ]
+    },
+    {
+      "id": "hollow_tree_coffee",
+      "x": 13.5,
+      "y": 8.75,
+      "w": 2.2,
+      "h": 2.2,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "hollow_tree_coffee_11_0",
+          "ox": 1,
+          "oy": 2,
+          "type": "utility"
+        }
+      ]
+    },
+    {
+      "id": "firefly_jar_small",
+      "x": 9.25,
+      "y": 4.5,
+      "w": 0.5,
+      "h": 0.5,
+      "layer": "below"
+    },
+    {
+      "id": "bamboo_balcony_edge",
+      "x": 0,
+      "y": 0.75,
+      "w": 3.3,
+      "h": 1.3,
+      "layer": "below"
+    },
+    {
+      "id": "bamboo_balcony_edge",
+      "x": 3.25,
+      "y": 0.75,
+      "w": 3.3,
+      "h": 1.3,
+      "layer": "below"
+    },
+    {
+      "id": "bamboo_balcony_edge",
+      "x": 6.5,
+      "y": 0.75,
+      "w": 3.3,
+      "h": 1.3,
+      "layer": "below"
+    },
+    {
+      "id": "bamboo_balcony_edge",
+      "x": 9.75,
+      "y": 0.75,
+      "w": 3.3,
+      "h": 1.3,
+      "layer": "below"
+    },
+    {
+      "id": "giant_monstera",
+      "x": 6.75,
+      "y": 0.75,
+      "w": 1.9,
+      "h": 2,
+      "layer": "below"
+    },
+    {
+      "id": "hanging_ferns",
+      "x": 0,
+      "y": 0,
+      "w": 1.9,
+      "h": 2,
+      "layer": "below"
+    },
+    {
+      "id": "totem_bookshelf",
+      "x": 5,
+      "y": 0.25,
+      "w": 1.8,
+      "h": 2.6,
+      "layer": "below"
+    },
+    {
+      "id": "parrot_perch",
+      "x": 13.5,
+      "y": 0.25,
+      "w": 1.5,
+      "h": 0.9,
+      "layer": "below"
+    },
+    {
+      "id": "desk_chair_dark",
+      "x": 10,
+      "y": 5.25,
+      "w": 0.8,
+      "h": 1.6,
+      "layer": "above",
+      "anchors": [
+        {
+          "ox": 0.5,
+          "oy": 2,
+          "type": "work",
+          "name": "desk_chair_dark_16_0"
+        }
+      ]
+    },
+    {
+      "id": "stump_desk",
+      "x": 5.25,
+      "y": 7.25,
+      "w": 3,
+      "h": 3,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "stump_desk_15_0",
+          "ox": 0.75,
+          "oy": 2.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "desk_chair_dark",
+      "x": 6.5,
+      "y": 8.75,
+      "w": 0.8,
+      "h": 1.6,
+      "layer": "above",
+      "anchors": [
+        {
+          "ox": 0.5,
+          "oy": 2,
+          "type": "work",
+          "name": "desk_chair_dark_16_0"
+        }
+      ]
+    }
+  ],
+  "wanderPoints": [
+    {
+      "name": "wander_center_north",
+      "x": 10,
+      "y": 5
+    },
+    {
+      "name": "wander_west_path",
+      "x": 3,
+      "y": 7
+    }
+  ],
+  "propImages": {
+    "vine_chair": "world_assets/props/prop_1_vine_chair.png",
+    "stump_desk": "world_assets/props/prop_0_stump_desk.png",
+    "firefly_jar_small": "world_assets/props/prop_9_firefly_jar_small.png",
+    "bamboo_fountain": "world_assets/props/prop_3_bamboo_fountain.png",
+    "parrot_perch": "world_assets/props/prop_8_parrot_perch.png",
+    "totem_bookshelf": "world_assets/props/prop_4_totem_bookshelf.png",
+    "hollow_tree_coffee": "world_assets/props/prop_5_hollow_tree_coffee.png",
+    "mossy_rock_plant": "world_assets/props/prop_10_mossy_rock_plant.png",
+    "desk_chair_light": "world_assets/props/desk_chair_light.png",
+    "hammock_lounge": "world_assets/props/prop_2_hammock_lounge.png",
+    "bamboo_balcony_edge": "world_assets/props/prop_13_bamboo_balcony_edge.png",
+    "giant_monstera": "world_assets/props/prop_6_giant_monstera.png",
+    "desk_chair_dark": "world_assets/props/desk_chair_dark.png",
+    "hanging_ferns": "world_assets/props/prop_7_hanging_ferns.png",
+    "weathered_map": "world_assets/props/prop_11_weathered_map.png",
+    "biolum_fungi_wall": "world_assets/props/prop_12_biolum_fungi_wall.png"
+  },
+  "tiles": {
+    "jungle_floor": "world_assets/tiles/jungle_floor.png",
+    "vine_wall": "world_assets/tiles/vine_wall.png",
+    "water_texture": "world_assets/tiles/water_texture.png",
+    "tribal_rug": "world_assets/tiles/tribal_rug.png",
+    "mossy_rock_floor": "world_assets/tiles/mossy_rock_floor.png",
+    "vine_wall_banyan": "world_assets/tiles/vine_wall_banyan.png",
+    "rough_planks_floor": "world_assets/tiles/rough_planks_floor.png",
+    "tileset": "world_assets/tiles/tileset.png"
+  }
+}

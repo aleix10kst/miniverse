@@ -1,12 +1,8 @@
 import { Pathfinder } from './Pathfinder';
 import type { RenderLayer } from '../renderer/Renderer';
 
-export interface TilesetConfig {
-  image: string;
-  tileWidth: number;
-  tileHeight: number;
-  columns: number;
-}
+/** Deadspace marker — empty string means "void / no tile". */
+export const DEADSPACE = '';
 
 export interface NamedLocation {
   x: number;
@@ -18,17 +14,19 @@ export interface SceneConfig {
   name: string;
   tileWidth: number;
   tileHeight: number;
-  layers: number[][][];
+  /** String-keyed floor grid. Each cell is a tile key or DEADSPACE (""). */
+  layers: string[][][];
   walkable: boolean[][];
   locations: Record<string, NamedLocation>;
-  tilesets: TilesetConfig[];
+  /** Map of tile key → image path (e.g. { "oak_planks": "tiles/oak_planks.png" }) */
+  tiles: Record<string, string>;
 }
 
 export class Scene implements RenderLayer {
   readonly order = 0;
   readonly config: SceneConfig;
   readonly pathfinder: Pathfinder;
-  private tileImages: HTMLImageElement[] = [];
+  private tileImages: Map<string, HTMLImageElement> = new Map();
   private loaded = false;
 
   constructor(config: SceneConfig) {
@@ -37,22 +35,38 @@ export class Scene implements RenderLayer {
   }
 
   async load(basePath: string): Promise<void> {
-    const promises = this.config.tilesets.map((ts) => {
-      return new Promise<HTMLImageElement>((resolve, reject) => {
+    const entries = Object.entries(this.config.tiles);
+    const promises = entries.map(([key, src]) => {
+      return new Promise<void>((resolve) => {
         const img = new Image();
-        img.onload = () => resolve(img);
-        img.onerror = () => reject(new Error(`Failed to load tileset: ${ts.image}`));
-        const isAbsolute = /^(\/|blob:|data:|https?:\/\/)/.test(ts.image);
-        img.src = isAbsolute ? ts.image : `${basePath}/${ts.image}`;
+        img.onload = () => {
+          this.tileImages.set(key, img);
+          resolve();
+        };
+        img.onerror = () => {
+          // Skip missing tiles gracefully
+          resolve();
+        };
+        const isAbsolute = /^(\/|blob:|data:|https?:\/\/)/.test(src);
+        img.src = isAbsolute ? src : `${basePath}/${src}`;
       });
     });
 
-    this.tileImages = await Promise.all(promises);
+    await Promise.all(promises);
     this.loaded = true;
   }
 
   getLocation(name: string): NamedLocation | undefined {
     return this.config.locations[name];
+  }
+
+  getTileImages(): Map<string, HTMLImageElement> {
+    return this.tileImages;
+  }
+
+  addTile(key: string, img: HTMLImageElement) {
+    this.tileImages.set(key, img);
+    this.config.tiles[key] = '';  // path tracked by caller
   }
 
   render(ctx: CanvasRenderingContext2D, _delta: number) {
@@ -63,24 +77,19 @@ export class Scene implements RenderLayer {
     for (const layer of layers) {
       for (let row = 0; row < layer.length; row++) {
         for (let col = 0; col < layer[row].length; col++) {
-          const tileId = layer[row][col];
-          if (tileId < 0) {
+          const key = layer[row][col];
+          if (key === DEADSPACE) {
             ctx.fillStyle = '#2a2a2e';
             ctx.fillRect(col * tileWidth, row * tileHeight, tileWidth, tileHeight);
             continue;
           }
 
-          const tsIndex = 0;
-          const ts = this.config.tilesets[tsIndex];
-          const img = this.tileImages[tsIndex];
-          if (!ts || !img) continue;
-
-          const sx = (tileId % ts.columns) * ts.tileWidth;
-          const sy = Math.floor(tileId / ts.columns) * ts.tileHeight;
+          const img = this.tileImages.get(key);
+          if (!img) continue;
 
           ctx.drawImage(
             img,
-            sx, sy, ts.tileWidth, ts.tileHeight,
+            0, 0, img.naturalWidth, img.naturalHeight,
             col * tileWidth, row * tileHeight, tileWidth, tileHeight,
           );
         }

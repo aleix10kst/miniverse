@@ -6,7 +6,7 @@
 import { buildPrompt, type SheetType } from './prompt.js';
 import { generate, downloadImage } from './fal.js';
 import { removeBg, removeBgUrl } from './background.js';
-import { processCharacterSheet, processFurnitureSheet, processTexture, assembleTileset } from './process.js';
+import { processCharacterSheet, processPropsSheet, processTexture, assembleTileset, compressSprite } from './process.js';
 import sharp from 'sharp';
 import { writeFileSync, mkdirSync } from 'fs';
 import path from 'path';
@@ -71,8 +71,8 @@ export async function generateCharacter(options: GenerateCharacterOptions): Prom
   return { buffer: result };
 }
 
-export interface GenerateFurnitureOptions {
-  /** Furniture description, e.g. "cozy cafe furniture set" */
+export interface GeneratePropsOptions {
+  /** Props description, e.g. "cozy cafe props set" */
   prompt: string;
   /** Optional reference image */
   refImage?: string;
@@ -82,17 +82,17 @@ export interface GenerateFurnitureOptions {
   skipBgRemoval?: boolean;
 }
 
-export interface GenerateFurnitureResult {
-  /** Individual furniture piece buffers */
+export interface GeneratePropsResult {
+  /** Individual prop piece buffers */
   pieces: { buffer: Buffer; width: number; height: number }[];
   /** Output paths if written to disk */
   outputPaths?: string[];
 }
 
-export async function generateFurniture(options: GenerateFurnitureOptions): Promise<GenerateFurnitureResult> {
+export async function generateProps(options: GeneratePropsOptions): Promise<GeneratePropsResult> {
   // Step 1: Enrich prompt
-  const fullPrompt = buildPrompt(options.prompt, 'furniture');
-  console.log('Generating furniture...');
+  const fullPrompt = buildPrompt(options.prompt, 'props');
+  console.log('Generating props...');
 
   // Step 2: Generate via fal.ai
   const { imageUrl } = await generate({
@@ -111,9 +111,18 @@ export async function generateFurniture(options: GenerateFurnitureOptions): Prom
   const imageBuffer = await downloadImage(downloadUrl);
 
   // Step 5: Extract individual pieces
-  console.log('Extracting furniture pieces...');
-  const pieces = await processFurnitureSheet(imageBuffer);
+  console.log('Extracting prop pieces...');
+  const pieces = await processPropsSheet(imageBuffer);
   console.log(`Found ${pieces.length} pieces`);
+
+  // Step 6: Compress for web
+  console.log('Compressing sprites...');
+  for (let i = 0; i < pieces.length; i++) {
+    pieces[i].buffer = await compressSprite(pieces[i].buffer);
+    const meta = await sharp(pieces[i].buffer).metadata();
+    pieces[i].width = meta.width!;
+    pieces[i].height = meta.height!;
+  }
 
   // Write to disk if output dir given
   if (options.output) {
@@ -173,14 +182,19 @@ export async function generateObject(options: GenerateObjectOptions): Promise<Ge
   console.log('Trimming...');
   const trimmed = await sharp(imageBuffer).trim().toBuffer({ resolveWithObject: true });
 
+  // Compress for web
+  console.log('Compressing sprite...');
+  const compressed = await compressSprite(trimmed.data);
+  const compMeta = await sharp(compressed).metadata();
+
   if (options.output) {
     mkdirSync(path.dirname(options.output), { recursive: true });
-    writeFileSync(options.output, trimmed.data);
-    console.log(`Saved: ${options.output} (${trimmed.info.width}x${trimmed.info.height})`);
-    return { buffer: trimmed.data, width: trimmed.info.width, height: trimmed.info.height, outputPath: options.output };
+    writeFileSync(options.output, compressed);
+    console.log(`Saved: ${options.output} (${compMeta.width}x${compMeta.height})`);
+    return { buffer: compressed, width: compMeta.width!, height: compMeta.height!, outputPath: options.output };
   }
 
-  return { buffer: trimmed.data, width: trimmed.info.width, height: trimmed.info.height };
+  return { buffer: compressed, width: compMeta.width!, height: compMeta.height! };
 }
 
 export interface GenerateTextureOptions {
@@ -269,7 +283,7 @@ export async function buildTileset(options: AssembleTilesetOptions): Promise<Ass
  */
 export async function processExistingImage(
   imagePath: string,
-  type: 'character' | 'furniture',
+  type: 'character' | 'props',
   output: string,
   options?: { skipBgRemoval?: boolean },
 ): Promise<void> {
@@ -287,12 +301,13 @@ export async function processExistingImage(
     writeFileSync(output, result);
     console.log(`Saved: ${output}`);
   } else {
-    console.log('Extracting furniture pieces...');
-    const pieces = await processFurnitureSheet(buffer);
+    console.log('Extracting prop pieces...');
+    const pieces = await processPropsSheet(buffer);
     mkdirSync(output, { recursive: true });
     for (let i = 0; i < pieces.length; i++) {
+      const compressed = await compressSprite(pieces[i].buffer);
       const p = path.join(output, `piece_${i}.png`);
-      writeFileSync(p, pieces[i].buffer);
+      writeFileSync(p, compressed);
       console.log(`  piece_${i}: ${pieces[i].width}x${pieces[i].height}`);
     }
   }

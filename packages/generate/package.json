@@ -1,7 +1,7 @@
 {
-  "name": "miniverse-generate",
-  "version": "0.1.0",
-  "description": "AI sprite generator for Miniverse — create character and furniture sprites from prompts",
+  "name": "@miniverse/generate",
+  "version": "0.2.0",
+  "description": "AI sprite generator for Miniverse — create character and prop sprites from prompts",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

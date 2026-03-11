@@ -3,8 +3,8 @@ import { Scene } from './scene/Scene';
 import type { SceneConfig, NamedLocation } from './scene/Scene';
 import { SpriteSheet } from './sprites/SpriteSheet';
 import type { SpriteSheetConfig } from './sprites/SpriteSheet';
-import { Resident, ResidentLayer, TileReservation } from './residents/Resident';
-import type { ResidentConfig, AgentState, TypedLocation, AnchorType } from './residents/Resident';
+import { Citizen, CitizenLayer, TileReservation } from './citizens/Citizen';
+import type { CitizenConfig, AgentState, TypedLocation, AnchorType } from './citizens/Citizen';
 import { InteractiveObject } from './objects/InteractiveObject';
 import type { ObjectConfig } from './objects/InteractiveObject';
 import { ParticleSystem } from './effects/Particles';
@@ -17,7 +17,7 @@ export interface MiniverseConfig {
   world: string;
   scene: string;
   signal: SignalConfig;
-  residents: ResidentConfig[];
+  citizens: CitizenConfig[];
   scale?: number;
   width?: number;
   height?: number;
@@ -27,13 +27,13 @@ export interface MiniverseConfig {
   objects?: ObjectConfig[];
 }
 
-type MiniverseEvent = 'resident:click' | 'object:click' | 'intercom';
+type MiniverseEvent = 'citizen:click' | 'object:click' | 'intercom';
 
 export class Miniverse {
   private renderer: Renderer;
   private scene: Scene;
-  private residents: Resident[] = [];
-  private residentLayer: ResidentLayer;
+  private citizens: Citizen[] = [];
+  private citizenLayer: CitizenLayer;
   private objects: InteractiveObject[] = [];
   private particles: ParticleSystem;
   private speechBubbles: SpeechBubbleSystem;
@@ -53,7 +53,7 @@ export class Miniverse {
 
     this.renderer = new Renderer(config.container, width, height, scale);
     this.scene = new Scene(config.sceneConfig ?? createDefaultSceneConfig());
-    this.residentLayer = new ResidentLayer();
+    this.citizenLayer = new CitizenLayer();
     this.particles = new ParticleSystem();
     this.speechBubbles = new SpeechBubbleSystem();
     this.signal = new Signal(config.signal);
@@ -69,7 +69,7 @@ export class Miniverse {
         }
       },
     });
-    for (const layer of this.residentLayer.getLayers()) {
+    for (const layer of this.citizenLayer.getLayers()) {
       this.renderer.addLayer(layer);
     }
     this.renderer.addLayer(this.particles);
@@ -79,7 +79,7 @@ export class Miniverse {
     this.renderer.addLayer({
       order: 30,
       render: (ctx) => {
-        for (const r of this.residents) {
+        for (const r of this.citizens) {
           if (!r.visible) continue;
           // Draw name tag
           ctx.save();
@@ -109,7 +109,7 @@ export class Miniverse {
       }
     }
 
-    // Update loop for residents
+    // Update loop for citizens
     this.renderer.addLayer({
       order: -1,
       render: (_ctx, delta) => {
@@ -117,10 +117,10 @@ export class Miniverse {
         for (const [key, loc] of Object.entries(this.scene.config.locations)) {
           locations[key] = { x: loc.x, y: loc.y };
         }
-        for (const resident of this.residents) {
-          const otherHomes = this.getOtherHomeAnchors(resident.agentId);
-          resident.update(delta, this.scene.pathfinder, locations, this.typedLocations, this.reservation, otherHomes);
-          this.updateResidentEffects(resident, delta);
+        for (const citizen of this.citizens) {
+          const otherHomes = this.getOtherHomeAnchors(citizen.agentId);
+          citizen.update(delta, this.scene.pathfinder, locations, this.typedLocations, this.reservation, otherHomes);
+          this.updateCitizenEffects(citizen, delta);
         }
       },
     });
@@ -131,13 +131,14 @@ export class Miniverse {
 
     await this.scene.load(basePath);
 
-    // Load residents
-    for (const resConfig of this.config.residents) {
-      const sheetConfig = this.config.spriteSheets?.[resConfig.sprite] ?? createDefaultSpriteConfig();
+    // Load citizens
+    for (const resConfig of this.config.citizens) {
+      const sheetConfig = this.config.spriteSheets?.[resConfig.sprite]
+        ?? createStandardSpriteConfig(resConfig.sprite);
       const sheet = new SpriteSheet(sheetConfig);
-      await sheet.load(`${basePath}/residents/sprites`);
+      await sheet.load(basePath);
 
-      const resident = new Resident(
+      const citizen = new Citizen(
         resConfig,
         sheet,
         this.scene.config.tileWidth,
@@ -147,18 +148,84 @@ export class Miniverse {
       // Place at named location (scene locations, then typed locations)
       const loc = this.scene.getLocation(resConfig.position);
       if (loc) {
-        resident.setTilePosition(loc.x, loc.y);
+        citizen.setTilePosition(loc.x, loc.y);
       } else {
         const typed = this.typedLocations.find(l => l.name === resConfig.position);
-        if (typed) resident.setTilePosition(typed.x, typed.y);
+        if (typed) citizen.setTilePosition(typed.x, typed.y);
       }
 
-      this.residents.push(resident);
+      this.citizens.push(citizen);
     }
 
-    this.residentLayer.setResidents(this.residents);
+    this.citizenLayer.setCitizens(this.citizens);
+    this.unstickCitizens();
     this.signal.start();
     this.renderer.start();
+  }
+
+  /** Nudge any citizen that can't pathfind to any destination to the nearest open tile */
+  private unstickCitizens() {
+    const grid = this.scene.config.walkable;
+    const rows = grid.length;
+    const cols = grid[0]?.length ?? 0;
+    const dirs = [[0, -1], [0, 1], [-1, 0], [1, 0]] as const;
+
+    // Collect all destination tiles (wander points + typed locations)
+    const destinations = this.typedLocations
+      .filter(l => l.type === 'wander' || l.type === 'social' || l.type === 'utility')
+      .map(l => ({ x: l.x, y: l.y }));
+
+    // Count how many walkable neighbors a tile has (connectivity score)
+    const connectivity = (tx: number, ty: number) => {
+      let count = 0;
+      for (const [dx, dy] of dirs) {
+        const nx = tx + dx, ny = ty + dy;
+        if (nx >= 0 && nx < cols && ny >= 0 && ny < rows && grid[ny][nx]) count++;
+      }
+      return count;
+    };
+
+    for (const citizen of this.citizens) {
+      const tile = citizen.getTilePosition();
+
+      // Check if we can pathfind to at least one destination
+      const canReachAny = destinations.some(d =>
+        this.scene.pathfinder.findPath(tile.x, tile.y, d.x, d.y).length > 1
+      );
+      if (canReachAny) continue;
+
+      // BFS outward for nearest well-connected tile that can reach a destination
+      const visited = new Set<string>();
+      const queue: { x: number; y: number }[] = [{ x: tile.x, y: tile.y }];
+      visited.add(`${tile.x},${tile.y}`);
+      let found = false;
+
+      while (queue.length > 0) {
+        const cur = queue.shift()!;
+        for (const [dx, dy] of dirs) {
+          const nx = cur.x + dx, ny = cur.y + dy;
+          const key = `${nx},${ny}`;
+          if (nx < 0 || nx >= cols || ny < 0 || ny >= rows) continue;
+          if (visited.has(key)) continue;
+          visited.add(key);
+
+          if (grid[ny][nx] && connectivity(nx, ny) >= 2) {
+            // Verify this tile can actually reach a destination
+            const reachable = destinations.some(d =>
+              this.scene.pathfinder.findPath(nx, ny, d.x, d.y).length > 1
+            );
+            if (reachable) {
+              citizen.setTilePosition(nx, ny);
+              console.log(`[miniverse] Unstuck "${citizen.agentId}" from (${tile.x},${tile.y}) to (${nx},${ny})`);
+              found = true;
+              break;
+            }
+          }
+          queue.push({ x: nx, y: ny });
+        }
+        if (found) break;
+      }
+    }
   }
 
   stop() {
@@ -203,10 +270,10 @@ export class Miniverse {
         }
       }
 
-      // All residents face "camera" (down)
-      for (const resident of this.residents) {
-        if (resident.visible) {
-          resident.faceDirection('down');
+      // All citizens face "camera" (down)
+      for (const citizen of this.citizens) {
+        if (citizen.visible) {
+          citizen.faceDirection('down');
         }
       }
 
@@ -247,26 +314,24 @@ export class Miniverse {
     config.walkable.length = newRows;
 
     // Expand floor layer
+    const defaultTile = Object.keys(config.tiles)[0] ?? 'floor';
     for (const layer of config.layers) {
       for (let r = 0; r < newRows; r++) {
         if (r >= layer.length) {
-          layer[r] = new Array(newCols).fill(0);
+          layer[r] = new Array(newCols).fill(defaultTile);
         }
         while (layer[r].length < newCols) {
-          layer[r].push(0);
+          layer[r].push(defaultTile);
         }
         layer[r].length = newCols;
       }
       layer.length = newRows;
 
-      // Set border tiles: top 2 rows = wall (1), everything else floor (0)
+      // New expansion cells get the default floor tile
       for (let r = 0; r < newRows; r++) {
         for (let c = 0; c < newCols; c++) {
-          if (r <= 1) {
-            layer[r][c] = 1;
-          } else if (r >= oldRows - 1 || c >= oldCols - 1) {
-            // Old border or new expansion becomes floor
-            layer[r][c] = 0;
+          if (r >= oldRows || c >= oldCols) {
+            layer[r][c] = defaultTile;
           }
         }
       }
@@ -283,28 +348,32 @@ export class Miniverse {
     return { cols: grid[0]?.length ?? 0, rows: grid.length };
   }
 
-  getFloorLayer(): number[][] {
+  getFloorLayer(): string[][] {
     return this.scene.config.layers[0];
   }
 
-  setTile(col: number, row: number, tileId: number) {
+  setTile(col: number, row: number, tileKey: string) {
     const layer = this.scene.config.layers[0];
     if (row >= 0 && row < layer.length && col >= 0 && col < layer[0].length) {
-      layer[row][col] = tileId;
-      // Deadspace tiles are non-walkable
+      layer[row][col] = tileKey;
       const walkable = this.scene.config.walkable;
       if (row < walkable.length && col < walkable[0].length) {
-        walkable[row][col] = tileId >= 0;
+        walkable[row][col] = tileKey !== '';
       }
     }
   }
 
-  getTilesetImage(): HTMLImageElement | null {
-    return (this.scene as any).tileImages?.[0] ?? null;
+  getTiles(): Record<string, string> {
+    return this.scene.config.tiles;
   }
 
-  getTilesetConfig() {
-    return this.scene.config.tilesets[0];
+  getTileImages(): Map<string, HTMLImageElement> {
+    return this.scene.getTileImages();
+  }
+
+  addTile(key: string, img: HTMLImageElement, src?: string) {
+    this.scene.addTile(key, img);
+    if (src) this.scene.config.tiles[key] = src;
   }
 
   /** Update walkability grid: reset to base then overlay blocked tiles */
@@ -318,12 +387,12 @@ export class Miniverse {
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         const isEdge = r === 0 || r === rows - 1 || c === 0 || c === cols - 1;
-        const isDead = floor?.[r]?.[c] < 0;
+        const isDead = floor?.[r]?.[c] === '';
         grid[r][c] = !isEdge && !isDead;
       }
     }
 
-    // Overlay furniture blocks
+    // Overlay prop blocks
     for (const key of blockedTiles) {
       const [x, y] = key.split(',').map(Number);
       if (y >= 0 && y < rows && x >= 0 && x < cols) {
@@ -331,12 +400,32 @@ export class Miniverse {
       }
     }
 
-    // Keep anchor destinations walkable so pathfinding can reach them
-    // (but never override deadspace)
+    // Keep anchor destinations walkable so pathfinding can reach them,
+    // and ensure at least one adjacent "approach tile" is also walkable
+    const dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]];
     for (const loc of this.typedLocations) {
       if (loc.y >= 0 && loc.y < rows && loc.x >= 0 && loc.x < cols) {
-        if (floor?.[loc.y]?.[loc.x] >= 0) {
+        if (floor?.[loc.y]?.[loc.x] !== '') {
           grid[loc.y][loc.x] = true;
+        }
+      }
+      // Ensure at least one neighbor is walkable so the anchor is reachable
+      let hasApproach = false;
+      for (const [dx, dy] of dirs) {
+        const nx = loc.x + dx, ny = loc.y + dy;
+        if (nx > 0 && nx < cols - 1 && ny > 0 && ny < rows - 1 && grid[ny][nx]) {
+          hasApproach = true;
+          break;
+        }
+      }
+      if (!hasApproach) {
+        // Open the best neighbor (prefer below, then sides) as an approach tile
+        for (const [dx, dy] of [[0, 1], [1, 0], [-1, 0], [0, -1]]) {
+          const nx = loc.x + dx, ny = loc.y + dy;
+          if (nx > 0 && nx < cols - 1 && ny > 0 && ny < rows - 1 && floor?.[ny]?.[nx] !== '') {
+            grid[ny][nx] = true;
+            break;
+          }
         }
       }
     }
@@ -346,24 +435,97 @@ export class Miniverse {
     return this.reservation;
   }
 
-  getResident(agentId: string): Resident | undefined {
-    return this.residents.find(r => r.agentId === agentId);
+  getCitizen(agentId: string): Citizen | undefined {
+    return this.citizens.find(r => r.agentId === agentId);
   }
 
-  getResidents(): Resident[] {
-    return [...this.residents];
+  getCitizens(): Citizen[] {
+    return [...this.citizens];
   }
+
+  getSpriteSheetKeys(): string[] {
+    return Object.keys(this.config.spriteSheets ?? {});
+  }
+
+  getSpriteSheetConfig(key: string): SpriteSheetConfig | undefined {
+    return this.config.spriteSheets?.[key];
+  }
+
+  getBasePath(): string {
+    return this.config.worldBasePath ?? `worlds/${this.config.world}`;
+  }
+
+  async addCitizen(config: CitizenConfig, sheetConfig?: SpriteSheetConfig): Promise<Citizen> {
+    const sc = sheetConfig ?? createStandardSpriteConfig(config.sprite);
+    const sheet = new SpriteSheet(sc);
+    const basePath = this.config.worldBasePath ?? `worlds/${this.config.world}`;
+    await sheet.load(basePath);
+
+    const citizen = new Citizen(
+      config,
+      sheet,
+      this.scene.config.tileWidth,
+      this.scene.config.tileHeight,
+    );
+
+    // Place at named location
+    const loc = this.scene.getLocation(config.position);
+    if (loc) {
+      citizen.setTilePosition(loc.x, loc.y);
+    } else {
+      const typed = this.typedLocations.find(l => l.name === config.position);
+      if (typed) citizen.setTilePosition(typed.x, typed.y);
+    }
+
+    this.citizens.push(citizen);
+    this.citizenLayer.setCitizens(this.citizens);
+    this.unstickCitizens();
+    return citizen;
+  }
+
+  removeCitizen(agentId: string) {
+    const idx = this.citizens.findIndex(r => r.agentId === agentId);
+    if (idx < 0) return;
+    this.reservation.release(agentId);
+    this.citizens.splice(idx, 1);
+    this.citizenLayer.setCitizens(this.citizens);
+  }
+
+  /** Timestamps of last movement transition per citizen, for debouncing */
+  private lastTransitionTime: Map<string, number> = new Map();
+  private static readonly TRANSITION_DEBOUNCE_MS = 8000;
 
   private handleSignalUpdate(agents: AgentStatus[]) {
     for (const agent of agents) {
-      const resident = this.residents.find(r => r.agentId === agent.id);
-      if (resident) {
-        const prevState = resident.state;
-        resident.updateState(agent.state, agent.task, agent.energy);
+      const citizen = this.citizens.find(r => r.agentId === agent.id);
+      if (citizen) {
+        // NPCs drive their own state — skip signal overrides
+        if (citizen.isNpc) continue;
 
-        // Handle state transitions
+        const prevState = citizen.state;
+        citizen.updateState(agent.state, agent.task, agent.energy);
+
+        // Handle state transitions with debouncing — rapid hook events
+        // (PreToolUse → PostToolUse → Stop) would otherwise cause citizens
+        // to constantly turn around before reaching their destination
         if (prevState !== agent.state) {
-          this.handleStateTransition(resident, prevState, agent.state);
+          const now = Date.now();
+          const lastTransition = this.lastTransitionTime.get(citizen.agentId) ?? 0;
+          const elapsed = now - lastTransition;
+
+          // Always allow: going to work, going offline, or citizen is standing still
+          // Debounce: everything else (don't interrupt a walk mid-path)
+          const shouldTransition =
+            elapsed >= Miniverse.TRANSITION_DEBOUNCE_MS
+            || agent.state === 'working'
+            || agent.state === 'offline'
+            || prevState === 'offline'
+            || !citizen.isMoving();
+
+          if (shouldTransition) {
+            this.handleStateTransition(citizen, prevState, agent.state);
+            this.lastTransitionTime.set(citizen.agentId, now);
+          }
         }
 
         // Update monitor glow
@@ -376,10 +538,10 @@ export class Miniverse {
     }
   }
 
-  /** Returns anchor names assigned as home positions to other residents */
+  /** Returns anchor names assigned as home positions to other citizens */
   private getOtherHomeAnchors(excludeAgentId: string): Set<string> {
     const homes = new Set<string>();
-    for (const r of this.residents) {
+    for (const r of this.citizens) {
       if (r.agentId !== excludeAgentId) {
         homes.add(r.getHomePosition());
       }
@@ -387,69 +549,70 @@ export class Miniverse {
     return homes;
   }
 
-  private handleStateTransition(resident: Resident, from: AgentState, to: AgentState) {
-    // All assigned home anchors belonging to other residents are always off-limits
-    const otherHomes = this.getOtherHomeAnchors(resident.agentId);
+  private handleStateTransition(citizen: Citizen, from: AgentState, to: AgentState) {
+    // All assigned home anchors belonging to other citizens are always off-limits
+    const otherHomes = this.getOtherHomeAnchors(citizen.agentId);
 
     if (this.typedLocations.length > 0) {
       if (to === 'working') {
         // Go to assigned home anchor specifically
-        const home = resident.getHomePosition();
-        if (!resident.goToAnchor(home, this.typedLocations, this.scene.pathfinder, this.reservation)) {
+        const home = citizen.getHomePosition();
+        const anchor = this.typedLocations.find(l => l.name === home);
+        if (!citizen.goToAnchor(home, this.typedLocations, this.scene.pathfinder, this.reservation)) {
           // Fallback: any unassigned work anchor
-          resident.goToAnchorType('work', this.typedLocations, this.scene.pathfinder, this.reservation, otherHomes);
+          citizen.goToAnchorType('work', this.typedLocations, this.scene.pathfinder, this.reservation, otherHomes);
         }
       } else if (to === 'sleeping') {
-        resident.goToAnchorType('rest', this.typedLocations, this.scene.pathfinder, this.reservation, otherHomes);
+        citizen.goToAnchorType('rest', this.typedLocations, this.scene.pathfinder, this.reservation, otherHomes);
       } else if (to === 'speaking') {
-        resident.goToAnchorType('social', this.typedLocations, this.scene.pathfinder, this.reservation, otherHomes);
+        citizen.goToAnchorType('social', this.typedLocations, this.scene.pathfinder, this.reservation, otherHomes);
       } else if (to === 'thinking') {
-        resident.goToAnchorType('utility', this.typedLocations, this.scene.pathfinder, this.reservation, otherHomes);
+        citizen.goToAnchorType('utility', this.typedLocations, this.scene.pathfinder, this.reservation, otherHomes);
       }
     }
 
-    if (to === 'working' && resident.task) {
-      this.speechBubbles.show(resident.x + 16, resident.y - 8, resident.task, 4, resident);
+    if (to === 'working' && citizen.task) {
+      this.speechBubbles.show(citizen.x + 16, citizen.y - 8, citizen.task, 4, citizen);
     } else if (to === 'error') {
-      this.particles.emitExclamation(resident.x + 16, resident.y - resident.getSittingOffset());
-    } else if (to === 'speaking' && resident.task) {
-      this.speechBubbles.show(resident.x + 16, resident.y - 8, resident.task, 5, resident);
+      this.particles.emitExclamation(citizen.x + 16, citizen.y - citizen.getSittingOffset());
+    } else if (to === 'speaking' && citizen.task) {
+      this.speechBubbles.show(citizen.x + 16, citizen.y - 8, citizen.task, 5, citizen);
     }
   }
 
-  private updateResidentEffects(resident: Resident, delta: number) {
-    const key = resident.agentId;
+  private updateCitizenEffects(citizen: Citizen, delta: number) {
+    const key = citizen.agentId;
     const timer = (this.particleTimers.get(key) ?? 0) + delta;
     this.particleTimers.set(key, timer);
 
-    if (resident.state === 'sleeping' && timer > 1.5) {
+    if (citizen.state === 'sleeping' && timer > 1.5) {
       this.particleTimers.set(key, 0);
-      this.particles.emitZzz(resident.x + 16, resident.y);
+      this.particles.emitZzz(citizen.x + 16, citizen.y);
     }
 
-    if (resident.state === 'thinking' && timer > 2) {
+    if (citizen.state === 'thinking' && timer > 2) {
       this.particleTimers.set(key, 0);
-      this.particles.emitThought(resident.x + 16, resident.y);
+      this.particles.emitThought(citizen.x + 16, citizen.y);
     }
 
-    if (resident.state === 'error' && timer > 2) {
+    if (citizen.state === 'error' && timer > 2) {
       this.particleTimers.set(key, 0);
-      this.particles.emitExclamation(resident.x + 16, resident.y);
+      this.particles.emitExclamation(citizen.x + 16, citizen.y);
     }
   }
 
   private handleClick(e: MouseEvent) {
     const world = this.renderer.screenToWorld(e.offsetX, e.offsetY);
 
-    // Check residents
-    for (const resident of this.residents) {
-      if (resident.containsPoint(world.x, world.y)) {
-        this.emit('resident:click', {
-          agentId: resident.agentId,
-          name: resident.name,
-          state: resident.state,
-          task: resident.task,
-          energy: resident.energy,
+    // Check citizens
+    for (const citizen of this.citizens) {
+      if (citizen.containsPoint(world.x, world.y)) {
+        this.emit('citizen:click', {
+          agentId: citizen.agentId,
+          name: citizen.name,
+          state: citizen.state,
+          task: citizen.task,
+          energy: citizen.energy,
         });
         return;
       }
@@ -470,24 +633,22 @@ function createDefaultSceneConfig(): SceneConfig {
   const rows = 12;
 
   // Simple office floor plan
-  const floor: number[][] = [];
+  const floor: string[][] = [];
   const walkable: boolean[][] = [];
   for (let r = 0; r < rows; r++) {
     floor[r] = [];
     walkable[r] = [];
     for (let c = 0; c < cols; c++) {
-      // Walls around the edges
       if (r === 0 || r === rows - 1 || c === 0 || c === cols - 1) {
-        floor[r][c] = 1; // wall tile
+        floor[r][c] = 'floor';
         walkable[r][c] = false;
       } else {
-        floor[r][c] = 0; // floor tile
+        floor[r][c] = 'floor';
         walkable[r][c] = true;
       }
     }
   }
 
-  // Desks (non-walkable)
   walkable[2][2] = false;
   walkable[2][3] = false;
   walkable[2][6] = false;
@@ -508,30 +669,29 @@ function createDefaultSceneConfig(): SceneConfig {
       intercom: { x: 1, y: 1, label: 'Intercom' },
       center: { x: 7, y: 6, label: 'Center' },
     },
-    tilesets: [{
-      image: 'tilesets/office.png',
-      tileWidth: 32,
-      tileHeight: 32,
-      columns: 16,
-    }],
+    tiles: {
+      floor: 'tiles/office.png',
+    },
   };
 }
 
-function createDefaultSpriteConfig(): SpriteSheetConfig {
+/** Standard sprite sheet config for a citizen using walk + actions convention */
+export function createStandardSpriteConfig(sprite: string): SpriteSheetConfig {
   return {
     sheets: {
-      base: 'morty_walk.png',
+      walk: `/universal_assets/citizens/${sprite}_walk.png`,
+      actions: `/universal_assets/citizens/${sprite}_actions.png`,
     },
     animations: {
-      idle_down: { sheet: 'base', row: 0, frames: 2, speed: 0.5 },
-      idle_up: { sheet: 'base', row: 1, frames: 2, speed: 0.5 },
-      walk_down: { sheet: 'base', row: 0, frames: 4, speed: 0.2 },
-      walk_up: { sheet: 'base', row: 1, frames: 4, speed: 0.2 },
-      walk_left: { sheet: 'base', row: 2, frames: 4, speed: 0.2 },
-      walk_right: { sheet: 'base', row: 3, frames: 4, speed: 0.2 },
-      working: { sheet: 'base', row: 0, frames: 2, speed: 0.3 },
-      sleeping: { sheet: 'base', row: 0, frames: 2, speed: 0.8 },
-      talking: { sheet: 'base', row: 0, frames: 4, speed: 0.15 },
+      idle_down: { sheet: 'actions', row: 3, frames: 4, speed: 0.5 },
+      idle_up: { sheet: 'actions', row: 3, frames: 4, speed: 0.5 },
+      walk_down: { sheet: 'walk', row: 0, frames: 4, speed: 0.15 },
+      walk_up: { sheet: 'walk', row: 1, frames: 4, speed: 0.15 },
+      walk_left: { sheet: 'walk', row: 2, frames: 4, speed: 0.15 },
+      walk_right: { sheet: 'walk', row: 3, frames: 4, speed: 0.15 },
+      working: { sheet: 'actions', row: 0, frames: 4, speed: 0.3 },
+      sleeping: { sheet: 'actions', row: 1, frames: 2, speed: 0.8 },
+      talking: { sheet: 'actions', row: 2, frames: 4, speed: 0.15 },
     },
     frameWidth: 64,
     frameHeight: 64,
@@ -544,13 +704,22 @@ export type { RenderLayer } from './renderer';
 export { Camera } from './renderer';
 export { SpriteSheet, Animator } from './sprites';
 export type { SpriteSheetConfig, AnimationDef } from './sprites';
-export { Scene, Pathfinder } from './scene';
-export type { SceneConfig, TilesetConfig, NamedLocation } from './scene';
-export { Resident, ResidentLayer, TileReservation } from './residents';
-export type { ResidentConfig, AgentState, TypedLocation, AnchorType } from './residents';
+export { Scene, Pathfinder, DEADSPACE } from './scene';
+export type { SceneConfig, NamedLocation } from './scene';
+export { Citizen, CitizenLayer, TileReservation } from './citizens';
+export type { CitizenConfig, AgentState, TypedLocation, AnchorType } from './citizens';
 export { InteractiveObject } from './objects';
 export type { ObjectConfig } from './objects';
 export { ParticleSystem } from './effects';
 export { SpeechBubbleSystem } from './effects';
 export { Signal } from './signal';
-export type { SignalConfig, SignalCallback, AgentStatus } from './signal';
+export type { SignalConfig, SignalCallback, EventCallback, MessageCallback, AgentStatus } from './signal';
+export { PropSystem, ANCHOR_TYPES, ANCHOR_COLORS } from './props';
+export type { Anchor, PropPiece, PropLayout, LoadedPiece } from './props';
+export { Editor } from './editor';
+export type { EditorTab, EditorConfig, SceneSnapshot, SaveSceneFn, CitizenDef } from './editor';
+export type {
+  AgentAction, WorldEvent, WorldSnapshot,
+  CitizenSnapshot, LocationSnapshot, PropSnapshot,
+  ServerMessage, ClientMessage,
+} from './protocol';

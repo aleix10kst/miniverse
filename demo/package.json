@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "miniverse": "*"
+    "@miniverse/core": "file:../packages/core"
   },
   "devDependencies": {
     "typescript": "^5.4.0",

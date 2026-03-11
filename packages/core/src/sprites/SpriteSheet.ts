@@ -23,13 +23,16 @@ export class SpriteSheet {
 
   async load(basePath: string): Promise<void> {
     const promises = Object.entries(this.config.sheets).map(([key, filename]) => {
-      return new Promise<void>((resolve, reject) => {
+      return new Promise<void>((resolve) => {
         const img = new Image();
         img.onload = () => {
           this.images.set(key, img);
           resolve();
         };
-        img.onerror = () => reject(new Error(`Failed to load sprite sheet: ${filename}`));
+        img.onerror = () => {
+          // Optional sheet — resolve silently. drawFrame already skips missing images.
+          resolve();
+        };
         const isAbsolute = /^(\/|blob:|data:|https?:\/\/)/.test(filename);
         img.src = isAbsolute ? filename : `${basePath}/${filename}`;
       });

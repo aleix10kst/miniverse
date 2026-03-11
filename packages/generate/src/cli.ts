@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { generateCharacter, generateFurniture, generateObject, generateTexture, buildTileset, processExistingImage } from './pipeline.js';
+import { generateCharacter, generateProps, generateObject, generateTexture, processExistingImage } from './pipeline.js';
 import { generateWorld } from './world.js';
 
 const args = process.argv.slice(2);
@@ -35,31 +35,27 @@ miniverse-generate — AI sprite generator for Miniverse
 Usage:
   miniverse-generate character --prompt "description" [options]
   miniverse-generate object --prompt "description" --output path
-  miniverse-generate furniture --prompt "description" [options]
+  miniverse-generate props --prompt "description" [options]
   miniverse-generate texture --prompt "description" --output path
   miniverse-generate world --prompt "description" --output ./my-world/
   miniverse-generate world --image reference.jpg --output ./my-world/
-  miniverse-generate tileset --tiles tile1.png tile2.png ... --output tileset.png
-  miniverse-generate process --input file.png --type character|furniture --output path
+  miniverse-generate process --input file.png --type character|props --output path
 
 Commands:
   character   Generate a character walk/action sprite sheet
-  object      Generate a single object/furniture piece
-  furniture   Generate furniture pieces (multi-item set)
+  object      Generate a single object/prop piece
+  props       Generate prop pieces (multi-item set)
   texture     Generate a seamless tileable texture (floor, wall, etc.)
-  world       Generate an entire workspace (textures, furniture, layout)
-  tileset     Assemble individual tile PNGs into a tileset atlas
+  world       Generate an entire workspace (textures, props, layout)
   process     Process an existing raw image (skip generation)
 
 Options:
-  --prompt      Character or furniture description (required for generate)
+  --prompt      Character or prop description (required for generate)
   --image       Reference image URL or path (for fal edit mode)
   --type        Sheet type: 'walk' or 'action' (default: walk)
-  --output      Output file path (character/texture) or directory (furniture)
-  --size        Tile size for textures/tileset (default: 32)
-  --columns     Tileset columns per row (default: 16)
-  --tiles       Tile PNG paths for tileset command (all remaining args)
-  --residents   Number of work desks/residents for world command (default: 4)
+  --output      Output file path (character/texture) or directory (props)
+  --size        Tile size for textures (default: 32)
+  --citizens    Number of work desks/citizens for world command (default: 4)
   --model       LLM model for world planning (default: google/gemini-2.5-flash)
   --input       Input image path (for process command)
   --skip-bg     Skip background removal
@@ -78,17 +74,17 @@ Examples:
     --image reference.png \\
     --output sprites/morty_walk.png
 
-  miniverse-generate furniture \\
-    --prompt "cozy cafe furniture set" \\
+  miniverse-generate props \\
+    --prompt "cozy cafe props set" \\
     --output sprites/cafe/
 
   miniverse-generate texture \\
     --prompt "warm wooden floor planks" \\
-    --output tilesets/floor.png
+    --output tiles/floor.png
 
   miniverse-generate texture \\
     --prompt "stone brick wall" \\
-    --output tilesets/wall.png
+    --output tiles/wall.png
 
   miniverse-generate world \\
     --prompt "cozy startup office with lots of plants" \\
@@ -96,11 +92,7 @@ Examples:
 
   miniverse-generate world \\
     --image office-photo.jpg \\
-    --output ./my-world/ --residents 6
-
-  miniverse-generate tileset \\
-    --tiles floor.png wall.png door.png \\
-    --output tilesets/office.png
+    --output ./my-world/ --citizens 6
 
   miniverse-generate process \\
     --input raw_sprite.png \\
@@ -117,7 +109,7 @@ async function main() {
 
   if (command === 'process') {
     const input = getFlag('input');
-    const type = getFlag('type') as 'character' | 'furniture';
+    const type = getFlag('type') as 'character' | 'props';
     const output = getFlag('output');
     if (!input || !type || !output) {
       console.error('Error: --input, --type, and --output are required for process command');
@@ -131,7 +123,7 @@ async function main() {
     const prompt = getFlag('prompt') ?? '';
     const image = getFlag('image');
     const output = getFlag('output') ?? './world-output/';
-    const residents = getFlag('residents') ? parseInt(getFlag('residents')!, 10) : 4;
+    const citizens = getFlag('citizens') ? parseInt(getFlag('citizens')!, 10) : 4;
     const model = getFlag('model');
     if (!prompt && !image) {
       console.error('Error: --prompt or --image is required for world command');
@@ -145,27 +137,12 @@ async function main() {
       prompt: prompt || 'modern office workspace',
       refImage: image,
       output,
-      residents,
+      citizens,
       model: model,
     });
     console.log(`\nWorld generated in: ${output}`);
     console.log(`  Scene:   ${result.scenePath}`);
-    console.log(`  Tileset: ${result.tilesetPath}`);
-    console.log(`  Sprites: ${result.furniturePaths.length} furniture pieces`);
-    console.log('Done!');
-    return;
-  }
-
-  if (command === 'tileset') {
-    const tiles = getMultiFlag('tiles');
-    const output = getFlag('output') ?? 'tileset.png';
-    const size = getFlag('size') ? parseInt(getFlag('size')!, 10) : 32;
-    const columns = getFlag('columns') ? parseInt(getFlag('columns')!, 10) : 16;
-    if (tiles.length === 0) {
-      console.error('Error: --tiles requires at least one tile path');
-      process.exit(1);
-    }
-    await buildTileset({ tiles, output, size, columns });
+    console.log(`  Sprites: ${result.propsPaths.length} prop pieces`);
     console.log('Done!');
     return;
   }
@@ -199,9 +176,9 @@ async function main() {
       output,
       skipBgRemoval: hasFlag('skip-bg'),
     });
-  } else if (command === 'furniture') {
-    const output = getFlag('output') ?? 'furniture/';
-    await generateFurniture({
+  } else if (command === 'props') {
+    const output = getFlag('output') ?? 'props/';
+    await generateProps({
       prompt,
       refImage: getFlag('image'),
       output,

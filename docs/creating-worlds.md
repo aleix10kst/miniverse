@@ -13,8 +13,8 @@ worlds/my-world/
     main.json             # Room layout
   objects/
     intercom.json         # Interactive object configs
-  residents/
-    default.json          # Default resident animation mappings
+  citizens/
+    default.json          # Default citizen animation mappings
     sprites/              # Sprite sheets
   effects/
     particles.json        # Particle effect definitions
@@ -39,7 +39,7 @@ worlds/my-world/
 
 Scenes define the tile grid, walkable areas, and named locations.
 
-Named locations are where residents sit, walk to, and interact with. They map to `ResidentConfig.position` values.
+Named locations are where citizens sit, walk to, and interact with. They map to `CitizenConfig.position` values.
 
 ## Tilesets
 
@@ -47,9 +47,9 @@ Tilesets are standard spritesheets. Each tile is referenced by a numeric ID (lef
 
 Compatible with LimeZu-style Modern Interiors packs and similar pixel art tilesets.
 
-## Resident Animations
+## Citizen Animations
 
-Each resident has named animation states mapped to rows in a sprite sheet:
+Each citizen has named animation states mapped to rows in a sprite sheet:
 
 ```json
 {
