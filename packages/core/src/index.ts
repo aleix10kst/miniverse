@@ -582,11 +582,16 @@ export class Miniverse {
     const sprite = sprites[this.autoSpawnIndex % sprites.length];
     this.autoSpawnIndex++;
 
-    // Pick a wander point as the spawn position, falling back to first available location
+    // Pick an unreserved wander point as the spawn position
     const wanderPoints = this.typedLocations.filter(l => l.type === 'wander');
-    const spawnLoc = wanderPoints[Math.floor(Math.random() * wanderPoints.length)]
+    const shuffled = [...wanderPoints].sort(() => Math.random() - 0.5);
+    const spawnLoc = shuffled.find(l => this.reservation.isAvailable(l.x, l.y, agent.id))
+      ?? shuffled[0]
       ?? this.typedLocations[0];
     const position = spawnLoc?.name ?? 'center';
+    if (spawnLoc) {
+      this.reservation.reserve(spawnLoc.x, spawnLoc.y, agent.id);
+    }
 
     this.spawningAgents.add(agent.id);
     this.addCitizen({ agentId: agent.id, name: agent.name, sprite, position })

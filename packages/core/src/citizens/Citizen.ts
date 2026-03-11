@@ -419,16 +419,23 @@ export class Citizen {
       }
     }
 
-    // Fallback to plain locations
-    const locationNames = Object.keys(locations);
+    // Fallback to plain locations — respect reservations
+    const locationNames = Object.keys(locations).sort(() => Math.random() - 0.5);
     if (locationNames.length === 0) return;
 
-    const target = locationNames[Math.floor(Math.random() * locationNames.length)];
-    const loc = locations[target];
     const tile = this.getTilePosition();
-    const path = pathfinder.findPath(tile.x, tile.y, loc.x, loc.y);
-    if (path.length > 1) {
-      this.walkTo(path);
+    for (const target of locationNames) {
+      const loc = locations[target];
+      if (reservation && !reservation.isAvailable(loc.x, loc.y, this.agentId)) continue;
+      const path = pathfinder.findPath(tile.x, tile.y, loc.x, loc.y);
+      if (path.length > 1) {
+        if (reservation) {
+          reservation.release(this.agentId);
+          reservation.reserve(loc.x, loc.y, this.agentId);
+        }
+        this.walkTo(path);
+        return;
+      }
     }
   }
 
