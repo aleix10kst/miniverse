@@ -145,15 +145,18 @@ async function main() {
     }
   }
 
+  // In production (behind nginx), connect to the server via WebSocket.
+  // In dev mode, use mock data so the demo works without a running server.
+  const wsUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws`;
+  const signal = import.meta.env.DEV
+    ? { type: 'mock' as const, mockData: mockAgentData, interval: 2000 }
+    : { type: 'websocket' as const, url: wsUrl };
+
   const mv = new Miniverse({
     container,
     world: worldId,
     scene: 'main',
-    signal: {
-      type: 'mock',
-      mockData: mockAgentData,
-      interval: 2000,
-    },
+    signal,
     citizens,
     scale: 2,
     width: gridCols * tileSize,

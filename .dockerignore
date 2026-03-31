@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.vite
+*.tsbuildinfo
+.DS_Store
+.env
+.claude
+.serena
+my-miniverse
+assets
+docs
+scripts
+worlds

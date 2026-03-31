@@ -1,0 +1,20 @@
+services:
+  miniverse-api:
+    container_name: miniverse-api
+    build:
+      context: .
+      target: server
+    ports:
+      - "4321:4321"
+    restart: unless-stopped
+
+  miniverse-frontend:
+    container_name: miniverse-frontend
+    build:
+      context: .
+      target: frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - miniverse-api
+    restart: unless-stopped
